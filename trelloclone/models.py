@@ -10,7 +10,7 @@ class Board(models.Model):
         return self.title
 
 class Card(models.Model):
-    parent_board = models.ForeignKey(Board)
+    parent_board = models.ForeignKey(Board, related_name="cards")
     title = models.CharField(max_length=140)
     content = models.TextField()
     pub_date = models.DateTimeField(auto_now=True,editable=False)
