@@ -1,2 +1,3 @@
 venv
 *.pyc
+snap/local_settings.py
