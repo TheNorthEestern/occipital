@@ -1,5 +1,5 @@
 from django.contrib import admin
-from trelloclone.models import Board, Card 
+from .models import Board, Card 
 
 class CardInline(admin.TabularInline):
     model = Card
