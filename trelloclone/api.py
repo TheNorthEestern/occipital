@@ -38,13 +38,4 @@ class CardResource(ModelResource):
         collection_name = 'cards'
         always_return_data = True
 
-    def alter_list_data_to_serialize(self, request, data_dict):
-        if isinstance(data_dict, dict):
-            data_dict['cards'] = copy.copy(data_dict['objects'])
-            del(data_dict['objects'])
-        return data_dict
-    def alter_set_data_to_serialize(self, request, data_dict):
-        if isinstance(data_dict, dict):
-            data_dict['cards'] = copy.copy(data_dict['objects'])
-            del(data_dict['objects'])
-        return data_dict
+    dehydrate_board_id = partial(foreign_key_to_id, field_name="parent_board")
