@@ -55,9 +55,7 @@ DS.DjangoTastypieAdapter = DS.RESTAdapter.extend({
   createRecord: function(store, type, record) {
     var data,
         root = this.rootForType(type);
-
     data = record.serialize();
-    data['board'] = '/api/v1/board/1/';
     this.ajax(this.buildURL(root), "POST", {
       data: data,
       success: function(json) {

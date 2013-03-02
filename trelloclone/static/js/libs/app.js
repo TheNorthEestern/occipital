@@ -32,7 +32,7 @@ App.CreateCardView = Ember.TextField.extend({
     var value = this.get('value');
     var title = 'something';
     if ( value ){
-      card = App.Card.createRecord({board_id:'/api/v1/board/1/',title: 'soldier', content: value});
+      card = App.Card.createRecord({title: 'soldier', content: value});
       card.store.commit();
       this.set('value', '');
     }

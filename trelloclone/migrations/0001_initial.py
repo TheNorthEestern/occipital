@@ -19,7 +19,7 @@ class Migration(SchemaMigration):
         # Adding model 'Card'
         db.create_table('trelloclone_card', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('parent_board', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['trelloclone.Board'])),
+            ('board', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['trelloclone.Board'], null=True)),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=140)),
             ('content', self.gf('django.db.models.fields.TextField')()),
             ('pub_date', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
@@ -80,9 +80,9 @@ class Migration(SchemaMigration):
         },
         'trelloclone.card': {
             'Meta': {'object_name': 'Card'},
+            'board': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['trelloclone.Board']", 'null': 'True'}),
             'content': ('django.db.models.fields.TextField', [], {}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'parent_board': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['trelloclone.Board']"}),
             'pub_date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '140'})
         }

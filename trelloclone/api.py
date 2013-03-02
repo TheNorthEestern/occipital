@@ -16,21 +16,20 @@ class UserResource(ModelResource):
 
 class BoardResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'owner')
-    card_ids = fields.ToManyField("trelloclone.api.CardResource", 'cards',full=True)
+    card_ids = fields.ToManyField("trelloclone.api.CardResource", 'card_set',full=True)
     
     class Meta:
         detail_allowed_methods = ['get', 'post', 'put', 'delete']
         queryset = Board.objects.all()
-        excludes = ['cards',]
         resource_name = 'board'
         collection_name = 'boards'
         always_return_data = True
         authorization = Authorization()
 
-    dehydrate_card_ids = partial(many_to_many_to_ids, field_name="cards")
+    dehydrate_card_ids = partial(many_to_many_to_ids, field_name="card_set")
 
 class CardResource(ModelResource):
-    board_id  = fields.ForeignKey(BoardResource, 'parent_board', related_name='board_id', null=True)
+    board = fields.ForeignKey(BoardResource, 'board', related_name='board_id', null=True)
 
     class Meta:
         field_list_to_remove = ['content']
@@ -41,4 +40,4 @@ class CardResource(ModelResource):
         always_return_data = True
         authorization = Authorization()
 
-    #dehydrate_board_id = partial(foreign_key_to_id, field_name="parent_board")
+    #dehydrate_board_id = partial(foreign_key_to_id, field_name="board")
