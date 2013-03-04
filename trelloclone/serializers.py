@@ -1,15 +1,14 @@
-import time
-from django.utils import simplejson
-from django.core.serializers import json
-from tastypie.serializers import Serializer
+from django.forms import widgets
+from rest_framework import serializers
+from .models import Board, Card
 
-class EmberJSONSerializer(Serializer):
-    def to_json(self, data, options=None):
-        options = options or {}
+class BoardSerializer(serializers.ModelSerializer):
+    creator = serializers.Field(source='owner.username')
+    cards = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    class Meta:
+        model = Board
+        fields = ('creator', 'title', 'cards')
 
-        data = self.to_simple(data, options)
-
-        #Add in the current time.
-        data['requested_time'] = time.time()
-
-        return simplejson.dumps(data, cls=json.DjangoJSONEncoder, sort_keys=True)
+class CardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Card

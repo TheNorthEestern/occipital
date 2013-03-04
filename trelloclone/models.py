@@ -10,7 +10,7 @@ class Board(models.Model):
         return self.title
 
 class Card(models.Model):
-    board = models.ForeignKey(Board, null=True)
+    board = models.ForeignKey(Board, null=False, related_name='cards')
     title = models.CharField(max_length=140)
     content = models.TextField()
     pub_date = models.DateTimeField(auto_now=True,editable=False)
@@ -22,5 +22,5 @@ class Card(models.Model):
         super(Card, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return "%s -> %s" % (self.board, self.title)
+        return "%s -> %s -- %s" % (self.board, self.title, self.content)
 
