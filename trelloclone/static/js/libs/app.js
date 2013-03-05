@@ -25,20 +25,38 @@ App.BoardsRoute = Ember.Route.extend({
 });
 
 App.BoardsController = Ember.ArrayController.extend({sortProperties:['id']});
+App.BoardController = Ember.ObjectController.extend();
+App.CardsController = Ember.ArrayController.extend({sortProperties:['id']});
+App.CardController = Ember.ObjectController.extend()
+
+App.CreateBoardView = Ember.TextField.extend({
+  placeholder:'Enter the title of a new board here',
+  insertNewline:function(){
+    var value = this.get('value');
+    board = App.Board.createRecord({title:value});
+    board.store.commit();
+    this.set('value', '');
+  }
+});
+
 
 App.CreateCardView = Ember.TextField.extend({
   insertNewline: function(){
+    console.dir(this.get('boards'));
     var value = this.get('value');
     var titleAndContent = value.split(':');
     var title = titleAndContent[0];
     var content = titleAndContent[1];
-    console.dir(this.get('title'));
     if ( value ){
-      card = App.Card.createRecord({title: title, content: content, board_id:'/api/v1/board/1'});
+      card = App.Card.createRecord({title: title, content: content});
       card.store.commit();
       this.set('value', '');
     }
   }
+});
+
+App.Owner = DS.Model.extend({
+  boards:DS.hasMany('App.Board'),
 });
 
 App.Board = DS.Model.extend({

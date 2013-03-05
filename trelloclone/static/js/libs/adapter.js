@@ -11,7 +11,6 @@
             , root = this.rootForType(type)
             , data  = record.serialize()
             , url = this.buildUrlWithParentWhenAvailable(record, this.buildURL(root));
-
             this.ajax(url, "POST", {
                 data: data,
                 context: this,

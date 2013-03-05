@@ -3,11 +3,11 @@ from rest_framework import serializers
 from .models import Board, Card
 
 class CardSerializer(serializers.ModelSerializer):
-    board_id = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    board_id = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = Card
         resource_name = 'card'
-        fields = ('id', 'board', 'title', 'content',)
+        fields = ('id', 'board_id', 'title', 'content',)
 
 class BoardSerializer(serializers.ModelSerializer):
     creator = serializers.Field(source='owner.username')

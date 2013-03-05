@@ -1,9 +1,11 @@
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework import renderers 
 from rest_framework import status 
-from rest_framework.decorators import api_view 
+from rest_framework.decorators import api_view, renderer_classes, permission_classes
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from .models import Board, Card
@@ -18,49 +20,45 @@ def api_root(request, format=None):
         'cards':reverse('card-list', request=request, format=format),
     })
 
-class BoardList(generics.ListAPIView):
+class BoardList(generics.ListCreateAPIView):
     model = Board
     serializer_class = BoardSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     
-    def pre_save(self, obj):
-        obj.user = self.request.user
-
-class BoardDetail(generics.RetrieveAPIView):
+class BoardDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Board
     serializer_class = BoardSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly,)
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     renderer_classes = (CustomJSONRenderer,)
 
-    def pre_save(self, obj):
-        obj.user = self.request.user
-
-class CardList(generics.ListAPIView):
+class CardList(generics.ListCreateAPIView):
     model = Card
     serializer_class = CardSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-    def pre_save(self, obj):
-        obj.board = self.request.board
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 class CardDetail(generics.RetrieveAPIView):
     model = Card
     serializer_class = CardSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
     renderer_classes = (CustomJSONRenderer,)
 
-    def pre_save(self, obj):
-        obj.board = self.request.board
+class JSONResponse(HttpResponse):
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data)
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
 
-# Function based view that finds all card associated
+# Function based view that finds all cards associated
 # with a particular board
+@permission_classes(permissions.IsAuthenticatedOrReadOnly,)
+@renderer_classes((CustomJSONRenderer,))
 def card_relative_to_parent_detail(request, pk):
     try:
-        board = Board.objects.get(pk=pk).cards.all()
+        cards = Board.objects.get(pk=pk).cards.all()
     except Board.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return HttpResponse('A board with that id does not exist',status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = BoardSerializer(board)
-        return Response(serializer.data)
+        serializer = CardSerializer(cards)
+        return JSONResponse(serializer.data)
