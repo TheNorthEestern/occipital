@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'api/v1/$', views.api_root),
     url(r'api/v1/boards/$', views.BoardList.as_view(), name='board-list'),
     url(r'api/v1/boards/(?P<pk>[0-9]+)/$', views.BoardDetail.as_view(), name='board-detail'),
+    url(r'api/v1/boards/(?P<pk>[0-9]+)/cards/$', views.card_relative_to_parent_detail),
     url(r'api/v1/cards/$', views.CardList.as_view(), name='card-list'),
     url(r'api/v1/cards/(?P<pk>[0-9]+)/$', views.CardDetail.as_view(),name='card-detail'),
 )

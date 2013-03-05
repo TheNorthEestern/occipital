@@ -2,13 +2,18 @@ from django.forms import widgets
 from rest_framework import serializers
 from .models import Board, Card
 
-class BoardSerializer(serializers.ModelSerializer):
-    creator = serializers.Field(source='owner.username')
-    cards = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    class Meta:
-        model = Board
-        fields = ('creator', 'title', 'cards')
-
 class CardSerializer(serializers.ModelSerializer):
+    board_id = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Card
+        resource_name = 'card'
+        fields = ('id', 'board', 'title', 'content',)
+
+class BoardSerializer(serializers.ModelSerializer):
+    creator = serializers.Field(source='owner.username')
+    card_ids = serializers.PrimaryKeyRelatedField(many=True, read_only=True, source='cards', widget=widgets.Textarea)
+    cards = CardSerializer(many=True)
+    class Meta:
+        model = Board
+        resource_name = 'board'
+        fields = ('id', 'title', 'card_ids','cards',)
