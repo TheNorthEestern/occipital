@@ -39,19 +39,12 @@ App.CreateBoardView = Ember.TextField.extend({
   }
 });
 
+App.CreateCardController = Ember.ObjectController.extend({
+});
 
-App.CreateCardView = Ember.TextField.extend({
-  insertNewline: function(){
-    console.dir(this.get('boards'));
-    var value = this.get('value');
-    var titleAndContent = value.split(':');
-    var title = titleAndContent[0];
-    var content = titleAndContent[1];
-    if ( value ){
-      card = App.Card.createRecord({title: title, content: content});
-      card.store.commit();
-      this.set('value', '');
-    }
+App.BoardEntryItemController = Ember.ObjectController.extend({
+  save: function(){
+    debugger;
   }
 });
 

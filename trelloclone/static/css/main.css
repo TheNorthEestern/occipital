@@ -5,6 +5,8 @@
   color: white;
   border-radius: 10px;
   margin: 0 4px 0 4px;
+  -webkit-transition-property: height, width;
+  -webkit-transition-duration: 1s;
 }
 .board .board-title{
   color: white;
