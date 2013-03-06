@@ -46,11 +46,11 @@ App.BoardEntryItemController = Ember.ObjectController.extend({
   save: function(){
     var title = this.get('newCardTitle');
     var content = this.get('newCardContent');
-    var board_id = this.get('model.id');
+    var board_id = this.get('model');
     if ( title && content ) {
-      card = this.get('model').get('cards').createRecord({title:title,content:content});
+      card = this.get('model').get('cards');
+      card.createRecord({title:title,content:content,board_id:board_id});
       card.store.commit();
-      this.set('value', '');
     }
     // console.log(this.get('newCardTitle'));
     // console.log(this.get('newCardContent'));
