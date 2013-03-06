@@ -12,7 +12,9 @@
             , data  = record.serialize()
             , url = this.buildUrlWithParentWhenAvailable(record, this.buildURL(root));
             this.ajax(url, "POST", {
-                data: data,
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
                 context: this,
                 success: function(pre_json) {
                     json[root] = pre_json;

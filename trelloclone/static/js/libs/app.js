@@ -44,7 +44,17 @@ App.CreateCardController = Ember.ObjectController.extend({
 
 App.BoardEntryItemController = Ember.ObjectController.extend({
   save: function(){
-    debugger;
+    var title = this.get('newCardTitle');
+    var content = this.get('newCardContent');
+    var board_id = this.get('model.id');
+    if ( title && content ) {
+      card = this.get('model').get('cards').createRecord({title:title,content:content});
+      card.store.commit();
+      this.set('value', '');
+    }
+    // console.log(this.get('newCardTitle'));
+    // console.log(this.get('newCardContent'));
+    // console.log(this.get('model.id'));
   }
 });
 

@@ -17,13 +17,14 @@
       {{view App.CreateBoardView}}
       {{#each board in controller itemController='boardEntryItem'}}
         <div class="board large-3 columns">
-          <h4 class="board-title">{{board.title}}</h4>
+          <h4 class="board-title">{{board.title}}{{board.id}}</h4>
           <p>This board has {{board.cards.length}} {{pluralize board.cards.length "card" "cards"}}</p>
           {{#each card in board.cards}}
             <p>{{card.title}}, {{card.board.id}}</p>
           {{/each}}
-          {{view Ember.TextField valueBinding="newCardName"}}
-          <button {{action save}}>SAVE OMG WTF</button>
+          {{view Ember.TextField valueBinding="newCardTitle" placeholder="title"}}
+          {{view Ember.TextField valueBinding="newCardContent" placeholder="content"}}
+          <button {{action save}}>Create this card</button>
         </div>
       {{/each}}
     </div>
