@@ -10,18 +10,20 @@
     {% verbatim %}
     <script type="text/x-handlebars" data-template-name="application"> 
     <div class="row">
-    <h1>scheduling standard 2 (A Trello Clone)</h1>
-      {{outlet}}
-      </div>
+      <div class="large-12 columns">
+        <h1>scheduling standard 2 (A Trello Clone)</h1>
+          {{outlet}}
+        </div>
+    </div>
     </script>
     <script type="text/x-handlebars" data-template-name="boards">
       {{view App.CreateBoardView}}
       {{#each board in controller itemController='boardEntryItem'}}
         <div class="board large-3 columns">
           <h4 class="board-title">{{board.title}}</h4>
-          <p>This board has {{board.cards.length}} {{pluralize board.cards.length "card" "cards"}}</p>
+          <p>This board has <span style="font-size: 1.2em; font-weight: bold;">{{board.cards.length}}</span> {{pluralize board.cards.length "card" "cards"}}</p>
           {{#each card in board.cards}}
-            <p>{{card.title}}, {{card.board.id}}</p>
+            <p class="card">{{card.title}}, {{card.board.id}}</p>
           {{/each}}
           <form action="">
           {{view Ember.TextField valueBinding="newCardTitle" placeholder="title"}}

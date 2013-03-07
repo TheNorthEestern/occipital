@@ -1,13 +1,23 @@
 .board{
   background-color: #c6c6c6;
   border: 1px solid #adadad;
-  box-shadow: inset 0px 0px 10px 2px gray;
   color: white;
-  border-radius: 10px;
   margin: 0 4px 0 4px;
   -webkit-transition-property: height, width;
   -webkit-transition-duration: 1s;
 }
 .board .board-title{
   color: white;
+}
+.card{
+  background-color: #333;
+  padding: 10px;
+}
+.card:hover{
+  cursor: all-scroll;
+}
+
+.card:active{
+  transform: rotate(-3deg);
+  -webkit-transform: rotate(-3deg);
 }
