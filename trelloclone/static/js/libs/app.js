@@ -33,7 +33,7 @@ App.CreateBoardView = Ember.TextField.extend({
   placeholder:'Enter the title of a new board here',
   insertNewline:function(){
     var value = this.get('value');
-    board = App.Board.createRecord({title:value, resource_uri:'nujabes'});
+    board = App.Board.createRecord({title:value});
     board.store.commit();
     this.set('value', '');
   }
