@@ -119,6 +119,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'south',
     'rest_framework',
+    'django_extensions',
     'trelloclone',
 )
 

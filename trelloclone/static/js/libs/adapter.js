@@ -15,6 +15,7 @@
                 contentType: 'application/json',
                 dataType: 'json',
                 data: JSON.stringify(data),
+                headers: { 'X-CSRFToken' : $.cookie('csrftoken') },
                 context: this,
                 success: function(pre_json) {
                     json[root] = pre_json;

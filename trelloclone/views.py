@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework import renderers 
@@ -23,13 +24,19 @@ def api_root(request, format=None):
 class BoardList(generics.ListCreateAPIView):
     model = Board
     serializer_class = BoardSerializer
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def pre_save(self, obj):
+        obj.owner_id = self.request.user.id
+
 class BoardDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Board
     serializer_class = BoardSerializer
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     renderer_classes = (CustomJSONRenderer,)
+
+    def pre_save(self, obj):
+        obj.owner_id = self.request.user.id
 
 class CardList(generics.ListCreateAPIView):
     model = Card

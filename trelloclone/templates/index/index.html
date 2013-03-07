@@ -6,6 +6,7 @@
 {% endblock %}
 {% block "content" %}
     {% load verbatim %}
+    {% csrf_token %}
     {% verbatim %}
     <script type="text/x-handlebars" data-template-name="application"> 
     <div class="row">
@@ -17,14 +18,16 @@
       {{view App.CreateBoardView}}
       {{#each board in controller itemController='boardEntryItem'}}
         <div class="board large-3 columns">
-          <h4 class="board-title">{{board.title}}{{board.id}}</h4>
+          <h4 class="board-title">{{board.title}}</h4>
           <p>This board has {{board.cards.length}} {{pluralize board.cards.length "card" "cards"}}</p>
           {{#each card in board.cards}}
             <p>{{card.title}}, {{card.board.id}}</p>
           {{/each}}
+          <form action="">
           {{view Ember.TextField valueBinding="newCardTitle" placeholder="title"}}
           {{view Ember.TextField valueBinding="newCardContent" placeholder="content"}}
-          <button {{action save}}>Create this card</button>
+          <button type=submit {{action save}}>Create this card</button>
+          </form>
         </div>
       {{/each}}
     </div>

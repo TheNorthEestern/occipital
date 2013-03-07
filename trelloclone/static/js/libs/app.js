@@ -33,7 +33,7 @@ App.CreateBoardView = Ember.TextField.extend({
   placeholder:'Enter the title of a new board here',
   insertNewline:function(){
     var value = this.get('value');
-    board = App.Board.createRecord({title:value});
+    board = App.Board.createRecord({title:value, resource_uri:'nujabes'});
     board.store.commit();
     this.set('value', '');
   }
@@ -46,15 +46,14 @@ App.BoardEntryItemController = Ember.ObjectController.extend({
   save: function(){
     var title = this.get('newCardTitle');
     var content = this.get('newCardContent');
-    var board_id = this.get('model');
     if ( title && content ) {
       card = this.get('model').get('cards');
-      card.createRecord({title:title,content:content,board_id:board_id});
+      card.createRecord({title:title,content:content});
       card.store.commit();
     }
-    // console.log(this.get('newCardTitle'));
-    // console.log(this.get('newCardContent'));
-    // console.log(this.get('model.id'));
+  },
+  submit:function(){
+    this.set('newCardTitle.value', '');
   }
 });
 
