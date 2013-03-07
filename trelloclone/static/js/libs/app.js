@@ -25,9 +25,7 @@ App.BoardsRoute = Ember.Route.extend({
 });
 
 App.BoardsController = Ember.ArrayController.extend({sortProperties:['id']});
-App.BoardController = Ember.ObjectController.extend();
 App.CardsController = Ember.ArrayController.extend({sortProperties:['id']});
-App.CardController = Ember.ObjectController.extend()
 
 App.CreateBoardView = Ember.TextField.extend({
   placeholder:'Enter the title of a new board here',
@@ -53,7 +51,7 @@ App.BoardEntryItemController = Ember.ObjectController.extend({
     }
   },
   submit:function(){
-    this.set('newCardTitle.value', '');
+    this.set('newCardTitle', '');
   }
 });
 
