@@ -5,6 +5,34 @@ Handlebars.registerHelper('pluralize', function(number, singular, plural){
   return (number === 1) ? singular : plural;
 });
 
+Moveable = Ember.Namespace.create();
+
+Moveable.cancel = function(event){
+  event.preventDefault();
+  return false;
+}
+
+Moveable.Draggable = Ember.Mixin.create({
+  attributeBindings : 'draggable',
+  draggable: 'true',
+  dragStart: function(event){
+    console.log('Dragging has commenced');
+  }
+});
+
+Moveable.Droppable = Ember.Mixin.create({
+  dragEnter: Moveable.cancel,
+  dragOver: Moveable.cancel,
+  drop: function(event){
+    event.preventDefault();
+    return false;
+  }
+});
+
+App.CardView = Ember.View.extend(Moveable.Draggable);
+
+App.CardDropArea = Ember.View.extend(Moveable.Droppable);
+
 App.Router.map(function(){
   this.resource('application');
   this.resource('boards', function(){
@@ -52,6 +80,14 @@ App.BoardEntryItemController = Ember.ObjectController.extend({
   },
   submit:function(){
     this.set('newCardTitle', '');
+  }
+});
+
+App.CardEntryItemController = Ember.ObjectController.extend({
+  delete: function(){
+    currentCard = this.get('model');
+    currentCard.deleteRecord();
+    currentCard.store.commit();
   }
 });
 

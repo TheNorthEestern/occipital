@@ -1,23 +1,66 @@
+body{
+  background-color: #56977F;
+}
 .board{
-  background-color: #c6c6c6;
-  border: 1px solid #adadad;
+  background-color: #335a4c;
+  border-radius: 5px;
   color: white;
-  margin: 0 4px 0 4px;
+  width: 300px;
+  #display: inline-block;
+  float: left;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  padding: 5px;
+  min-height: 260px;
   -webkit-transition-property: height, width;
   -webkit-transition-duration: 1s;
 }
 .board .board-title{
   color: white;
+  font-size: 15px;
+  min-height: 19px;
+  min-width: 30px;
+  line-height: 18px;
 }
 .card{
-  background-color: #333;
+  background-color: #BFC1B5;
+  position: relative;
+  color: #333;
+  margin: 0 auto;
+  width: 270px;
+  box-shadow: 1px 0px 1px #9c9f8d,0px 1px 1px #797c68,2px 1px 1px #9c9f8d,1px 2px 1px #797c68,3px 2px 1px #9c9f8d,2px 3px 1px #797c68,4px 3px 1px #9c9f8d,3px 4px 1px #797c68,5px 4px 1px #9c9f8d,4px 5px 1px #797c68,6px 5px 1px #9c9f8d;
   padding: 10px;
+  margin-bottom: 10px;
 }
 .card:hover{
-  cursor: all-scroll;
+  cursor: pointer;
 }
-
 .card:active{
-  transform: rotate(-3deg);
-  -webkit-transform: rotate(-3deg);
+ #transform: rotate(-3deg);
+ #-webkit-transform: rotate(-3deg);
 }
+.card .card-title{
+  #font-size: 12px;
+  max-width: 215px;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+.board .card-list{
+  margin-top: 10px;
+}
+.container{
+  overflow-x: scroll;
+}
+.main-content-area{
+  margin-top: 70px;
+  width: 90%;
+}
+.option-square{
+  height: 10px;
+  width: 10px;
+  background-color: black;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+.row{ max-width: 300%;}

@@ -43,12 +43,11 @@ class CardList(generics.ListCreateAPIView):
     serializer_class = CardSerializer
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-
-class CardDetail(generics.RetrieveAPIView):
+class CardDetail(generics.RetrieveDestroyAPIView):
     model = Card
     serializer_class = CardSerializer
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
-    renderer_classes = (CustomJSONRenderer,)
+    #renderer_classes = (CustomJSONRenderer,)
 
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
