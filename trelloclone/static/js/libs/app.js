@@ -1,7 +1,7 @@
 var App = Ember.Application.create();
 var attr = DS.attr;
 
-Handlebars.registerHelper('pluralize', function(number, singular, plural){
+Ember.Handlebars.registerBoundHelper('pluralize', function(number, singular, plural){
   return (number === 1) ? singular : plural;
 });
 
@@ -27,6 +27,24 @@ Moveable.Droppable = Ember.Mixin.create({
     event.preventDefault();
     return false;
   }
+});
+
+App.loginController = Ember.Object.create({
+  login: function(username, password){
+
+  }
+});
+
+App.LoginFormView = Ember.View.extend({
+  tagName: 'form',
+  username: null,
+  password: null,
+  submit: function(event){
+    event.preventDefault();
+    var username = this.get('');
+    var password = this.get('password');
+  },
+
 });
 
 App.CardView = Ember.View.extend(Moveable.Draggable);
@@ -69,6 +87,8 @@ App.CreateCardController = Ember.ObjectController.extend({
 });
 
 App.BoardEntryItemController = Ember.ObjectController.extend({
+  plural : 'cards',
+  singular : 'card',
   save: function(){
     var title = this.get('newCardTitle');
     var content = this.get('newCardContent');
@@ -81,6 +101,9 @@ App.BoardEntryItemController = Ember.ObjectController.extend({
   submit:function(){
     this.set('newCardTitle', '');
   }
+ // pluralize:function(word, singular, plural){
+ //   return (word.length === 1) ? singular : plural;
+ // }
 });
 
 App.CardEntryItemController = Ember.ObjectController.extend({
