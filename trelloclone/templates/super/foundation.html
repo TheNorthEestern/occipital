@@ -13,8 +13,16 @@
       <li class="name">
       <h1><a href="/">Occipital (A Trello Clone)</a></h1>
       </li>
-      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
     </ul>
+    <section class="top-bar-section">
+      <ul class="title-area">
+      {% if user.is_authenticated %}
+      <li class="name"><h1><a href="#">*</a></h1></li>
+      {% else %}
+      <li class="name"><h1><a href="#">Not logged in.</a></h1></li>
+      {% endif %}
+      </ul>
+    </section>
   </nav>
 </div>
 {% block "content" %}

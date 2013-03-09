@@ -31,7 +31,7 @@ Moveable.Droppable = Ember.Mixin.create({
 
 App.loginController = Ember.Object.create({
   login: function(username, password){
-
+    
   }
 });
 
@@ -101,9 +101,6 @@ App.BoardEntryItemController = Ember.ObjectController.extend({
   submit:function(){
     this.set('newCardTitle', '');
   }
- // pluralize:function(word, singular, plural){
- //   return (word.length === 1) ? singular : plural;
- // }
 });
 
 App.CardEntryItemController = Ember.ObjectController.extend({
