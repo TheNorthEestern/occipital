@@ -7,27 +7,91 @@ Ember.Handlebars.registerBoundHelper('pluralize', function(number, singular, plu
 
 Moveable = Ember.Namespace.create();
 
-Moveable.cancel = function(event){
-  event.preventDefault();
-  return false;
-}
+Moveable.Widget = Ember.Mixin.create({
+  didInsertElement: function(){
+    var options = this._gatherOptions();
+    this._gatherEvents(options);
 
-Moveable.Draggable = Ember.Mixin.create({
-  attributeBindings : 'draggable',
-  draggable: 'true',
-  dragStart: function(event){
-    console.log('Dragging has commenced');
+    var ui = $(this.get('element'))[this.get('uiType')]();
+    this.set('ui',ui);
+  },
+  willDestroyElement: function(){
+    var ui = this.get('ui');
+      if (ui){
+        var observers = this._observers;
+        for(var prop in observers){
+          if(observers.hasOwnProperty(prop)) {
+            this.removeObserver(prop, observers[prop]);
+          }
+        }
+        // ui._destroy();
+      }
+  },
+  _gatherOptions: function(){
+    var uiOptions = this.get('uiOptions'),
+    options = {};
+
+    uiOptions.forEach(function(key){
+      options[key] = this.get(key);
+
+      var observer = function(){
+        var value = this.get(key);
+        this.get('ui')._setOption(key, value);
+      };
+
+      this.addObserver(key, observer);
+
+      this._observers = this._observers || {};
+      this._observers[key] = observer;
+    }, this);
+      return options;
+  },
+  _gatherEvents: function(options){
+    var uiEvents = this.get('uiEvents') || [],
+                self = this;
+
+    uiEvents.forEach(function(event){
+      var callback = self[event];
+      if(callback){
+        options[event] = function(event, ui){
+          callback.call(self, event, ui);
+        };
+      }
+    });
   }
 });
 
-Moveable.Droppable = Ember.Mixin.create({
-  dragEnter: Moveable.cancel,
-  dragOver: Moveable.cancel,
-  drop: function(event){
-    event.preventDefault();
-    return false;
-  }
+Moveable.Button = Ember.View.extend(Moveable.Widget, {
+  uiType: 'button',
+  uiOptions: ['label', 'disabled'],
+  tagName:'button'
 });
+
+Moveable.Droppable = Ember.View.extend(Moveable.Widget, {
+  uiType: 'droppable',
+  uiOptions: ['activeClass', 'hoverClass', 'accept'],
+  uiEvents: ['drop']
+})
+
+Moveable.Draggable = Ember.View.extend(Moveable.Widget, {
+  uiType: 'draggable',
+  uiOptions: ['appendTo', 'helper'],
+  uiEvents: []
+})
+
+App.Draggable = Moveable.Draggable.extend({
+  appendTo: 'body',
+  helper: 'clone'
+})
+
+App.Droppable = Moveable.Droppable.extend({
+  activeClass: 'ui-state-default',
+  hoverClass: 'ui-state-hover',
+  accept: ':not(.ui-sortable-helper)',
+  drop: function(event,ui) {
+    console.log('Something was dropped!');
+  }
+})
 
 App.loginController = Ember.Object.create({
   login: function(username, password){
@@ -46,10 +110,6 @@ App.LoginFormView = Ember.View.extend({
   },
 
 });
-
-App.CardView = Ember.View.extend(Moveable.Draggable);
-
-App.CardDropArea = Ember.View.extend(Moveable.Droppable);
 
 App.Router.map(function(){
   this.resource('application');

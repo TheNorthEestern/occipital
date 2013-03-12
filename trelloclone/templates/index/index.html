@@ -27,9 +27,9 @@
             No Cards
           {{/if}}
           </p>
-          {{#view App.CardDropArea  class="card-list"}}
+          {{#view App.Droppable class="card-list"}}
             {{#each card in board.cards itemController='cardEntryItem'}}
-              {{#view App.CardView class="card"}}
+              {{#view App.Draggable class="card"}}
                 <p class="card-title">{{card.title}}</p><div class="option-square" {{action delete}}></div>
               {{/view}}
             {{/each}}
