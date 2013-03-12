@@ -3,13 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <title>Login</title>
+  <link rel="stylesheet" href="/static/css/foundation.min.css">
 </head>
 <body>
   <form action="." method="post">{% csrf_token %}
-    <p><label for="id_username">Username:</label>{{form.username}}</p>
-    <p><label for="id_password">Password:</label>{{form.password}}</p>
+  <div class="row collapse">
+  <h1 style="text-align: center;">Cranberry</h1>
+    <div class="small-3 large-2 columns">
+      <span class="prefix">Username</span>
+    </div>
+    <div class="small-9 large-10 columns">
+      {{form.username}}
+    </div>
+    <div class="small-3 large-2 columns">
+      <span class="prefix">Password</span>
+    </div>
+    <div class="small-9 large-10 columns">
+      {{form.password}}
+    </div>
     <input type="hidden" name="next" value="/" />
-    <input type="submit" value="log in" id="login-button">
+    <p style="text-align: center;"><input type="submit" value="log in" class="button"></p>
   </form>
+  </div>
 </body>
 </html>
