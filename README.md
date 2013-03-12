@@ -1,3 +1,3 @@
-# Snap-Hack
+# Cranberry: A Trello Clone
 
-Coming up with a description *soon*
+I'll be creating a version that can be easily installed locally soon...
