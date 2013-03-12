@@ -37,6 +37,7 @@
 
             this.ajax(this.buildURL(root, id), "PUT", {
                 data: data,
+                headers: { 'X-CSRFToken' : $.cookie('csrftoken') },
                 context: this,
                 success: function(pre_json) {
                     json[root] = pre_json;
@@ -116,6 +117,7 @@
         ajax: function(url, type, hash) {
             hash.url = url;
             hash.type = type;
+            hash.headers = { 'X-CSRFToken' : $.cookie('csrftoken') },
             hash.cache = false;
             hash.dataType = 'json';
             hash.context = this;

@@ -1,5 +1,11 @@
 body{
-  background-color: #56977F;
+  background-color: #f7f7f7;
+}
+.top-bar{
+  background-color: #7F0019;
+}
+.top-bar-section li a:not(.button){
+  background-color: #560011;
 }
 .board{
   background-color: #335a4c;
