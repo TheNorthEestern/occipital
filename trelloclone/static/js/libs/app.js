@@ -9,11 +9,22 @@ Moveable = Ember.Namespace.create();
 
 Moveable.Widget = Ember.Mixin.create({
   didInsertElement: function(){
+    if(this.get('ui')) { return; }
+
     var options = this._gatherOptions();
     this._gatherEvents(options);
 
-    var ui = $(this.get('element'))[this.get('uiType')]();
-    this.set('ui',ui);
+    var uiType = this.get('uiType');
+    var element = this.get('element');
+    var that = this;
+
+    var ui = this.$()[uiType]({
+      drop: function(event, ui){
+       that.cardWasDropped(event, ui);
+      }
+    });
+
+    this.set('ui', ui);
   },
   willDestroyElement: function(){
     var ui = this.get('ui');
@@ -88,8 +99,20 @@ App.Droppable = Moveable.Droppable.extend({
   activeClass: 'ui-state-default',
   hoverClass: 'ui-state-hover',
   accept: ':not(.ui-sortable-helper)',
-  drop: function(event,ui) {
-    console.log('Something was dropped!');
+  cardWasDropped: function(event, ui) {
+
+    var controller = this.get('controller')
+
+    // hack
+    var viewId = ui.draggable.attr('id');
+    card = Ember.View.views[viewId].get('controller.content');
+    // hack
+
+    controller.addSiblingCard(card);
+    // card.createRecord({title:title,content:content});
+    // card.store.commit();
+    // console.log('Dropped!');
+    // console.dir('this');
   }
 })
 
@@ -160,6 +183,11 @@ App.BoardEntryItemController = Ember.ObjectController.extend({
   },
   submit:function(){
     this.set('newCardTitle', '');
+  },
+  addSiblingCard: function(card){
+    var cards = this.get('content.cards');
+    Ember.Logger.info(card.toString(), ' added to ' , cards.toString())
+    cards.addObject(card)
   }
 });
 

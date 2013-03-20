@@ -28,11 +28,15 @@
           {{/if}}
           </p>
           {{#view App.Droppable class="card-list"}}
+            {{#if board.cards}}
             {{#each card in board.cards itemController='cardEntryItem'}}
               {{#view App.Draggable class="card"}}
                 <p class="card-title">{{card.title}}</p><div class="option-square" {{action delete}}></div>
               {{/view}}
             {{/each}}
+            {{else}}
+              <p style="border: 3px dashed #52A290; border-radius: 5px; padding: 15px;background-color: #488D7E; text-align: center">Add a card...</p>
+            {{/if}}
           {{/view}}
           <form action="" >
           {{view Ember.TextField valueBinding="newCardTitle" placeholder="title"}}
