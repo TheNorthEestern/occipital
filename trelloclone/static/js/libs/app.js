@@ -1,4 +1,8 @@
-var App = Ember.Application.create();
+var App = Ember.Application.create({
+  customEvents:{
+    'drop':'customDrop'
+  }
+});
 var attr = DS.attr;
 
 Ember.Handlebars.registerBoundHelper('pluralize', function(number, singular, plural){
@@ -12,18 +16,13 @@ Moveable.Widget = Ember.Mixin.create({
     if(this.get('ui')) { return; }
 
     var options = this._gatherOptions();
-    // this._gatherEvents(options);
+    this._gatherEvents(options);
 
     var uiType = this.get('uiType');
-    var uiOptions = this._gatherOptions();
     var element = this.get('element');
     var that = this;
 
-    var ui = this.$()[uiType]({
-      drop: function(event, ui){
-       that.cardWasDropped(event, ui);
-      }
-    }, uiOptions);
+    var ui = this.$()[uiType]( options, element);
 
     this.set('ui', ui);
   },
@@ -76,7 +75,7 @@ Moveable.Widget = Ember.Mixin.create({
 Moveable.Droppable = Ember.View.extend(Moveable.Widget, {
   uiType: 'droppable',
   uiOptions: ['activeClass', 'hoverClass', 'accept'],
-  uiEvents: ['drop']
+  uiEvents: ['drop','over']
 })
 
 Moveable.Draggable = Ember.View.extend(Moveable.Widget, {
@@ -97,9 +96,8 @@ App.Droppable = Moveable.Droppable.extend({
   activeClass: 'ui-state-default',
   hoverClass: 'ui-state-hover',
   accept: ':not(.ui-sortable-helper)',
-  cardWasDropped: function(event, ui) {
-    var controller = this.get('controller')
-
+  drop: function(event, ui) {
+    var controller = this.get('controller');
     // hack
     var viewId = ui.draggable.attr('id');
     card = Ember.View.views[viewId].get('controller.content');
@@ -110,6 +108,11 @@ App.Droppable = Moveable.Droppable.extend({
     // card.store.commit();
     // console.log('Dropped!');
     // console.dir('this');
+  },
+  over:function(event, ui){
+    console.dir(arguments.callee.caller.name);
+    console.log('Why hello there...');
+    console.log(ui.draggable);
   }
 })
 
