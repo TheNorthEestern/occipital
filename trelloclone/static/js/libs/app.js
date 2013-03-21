@@ -12,9 +12,10 @@ Moveable.Widget = Ember.Mixin.create({
     if(this.get('ui')) { return; }
 
     var options = this._gatherOptions();
-    this._gatherEvents(options);
+    // this._gatherEvents(options);
 
     var uiType = this.get('uiType');
+    var uiOptions = this._gatherOptions();
     var element = this.get('element');
     var that = this;
 
@@ -22,7 +23,7 @@ Moveable.Widget = Ember.Mixin.create({
       drop: function(event, ui){
        that.cardWasDropped(event, ui);
       }
-    });
+    }, uiOptions);
 
     this.set('ui', ui);
   },
@@ -72,12 +73,6 @@ Moveable.Widget = Ember.Mixin.create({
   }
 });
 
-Moveable.Button = Ember.View.extend(Moveable.Widget, {
-  uiType: 'button',
-  uiOptions: ['label', 'disabled'],
-  tagName:'button'
-});
-
 Moveable.Droppable = Ember.View.extend(Moveable.Widget, {
   uiType: 'droppable',
   uiOptions: ['activeClass', 'hoverClass', 'accept'],
@@ -86,13 +81,16 @@ Moveable.Droppable = Ember.View.extend(Moveable.Widget, {
 
 Moveable.Draggable = Ember.View.extend(Moveable.Widget, {
   uiType: 'draggable',
-  uiOptions: ['appendTo', 'helper'],
+  uiOptions: ['appendTo', 'helper','stack', 'delay', 'containment'],
   uiEvents: []
 })
 
 App.Draggable = Moveable.Draggable.extend({
   appendTo: 'body',
-  helper: 'clone'
+  helper: 'original',
+  stack: '.card',
+  delay: 75,
+  cancel : '.option-square'
 })
 
 App.Droppable = Moveable.Droppable.extend({
@@ -100,7 +98,6 @@ App.Droppable = Moveable.Droppable.extend({
   hoverClass: 'ui-state-hover',
   accept: ':not(.ui-sortable-helper)',
   cardWasDropped: function(event, ui) {
-
     var controller = this.get('controller')
 
     // hack
