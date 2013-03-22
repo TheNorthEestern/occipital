@@ -112,12 +112,15 @@ App.Droppable = Moveable.Droppable.extend({
     var currentCard = this.get('content.cards');
 
     console.dir(ui.draggable);
+    console.log(currentBoard.name);
     // {hack}
     var viewId = ui.draggable.attr('id');
     card = Ember.View.views[viewId].get('controller.content');
     // {end-hack}
 
     controller.addSiblingCard(card);
+    card.set('board_id', currentBoard.id);
+    card.store.commit();
   },
   over:function(event, ui){
     $(ui.draggable).toggleClass('drop-ready');

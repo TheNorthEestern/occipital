@@ -43,7 +43,7 @@ class CardList(generics.ListCreateAPIView):
     serializer_class = CardSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-class CardDetail(generics.RetrieveDestroyAPIView):
+class CardDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Card
     serializer_class = CardSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
