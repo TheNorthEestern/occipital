@@ -212,6 +212,7 @@ App.Owner = DS.Model.extend({
 });
 
 App.Board = DS.Model.extend({
+  owner:attr('string'),
   cards:DS.hasMany('App.Card'),
   title: attr('string'),
   resource_uri: attr('string')

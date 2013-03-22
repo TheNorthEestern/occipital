@@ -21,6 +21,7 @@
         <div class="board">
           <h4 class="board-title" style="display: inline;">{{board.title}}</h4>
           <p class="alert label card-counter">
+          <span style="font-size: 2em;">{{board.owner}}</span>
           {{#if board.cards }}
             {{board.cards.length}} {{pluralize board.cards.length board.singular board.plural}}
           {{else}}
