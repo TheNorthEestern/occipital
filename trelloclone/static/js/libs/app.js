@@ -1,8 +1,11 @@
 var App = Ember.Application.create({
   customEvents:{
+    // Necessary because of jQueryUI's 'drop' conflicts with
+    // Ember's built-in support for Native 'drop' (http://bit.ly/1048i82)
     'drop':'customDrop'
   }
 });
+
 var attr = DS.attr;
 
 Ember.Handlebars.registerBoundHelper('pluralize', function(number, singular, plural){
@@ -81,7 +84,7 @@ Moveable.Droppable = Ember.View.extend(Moveable.Widget, {
 Moveable.Draggable = Ember.View.extend(Moveable.Widget, {
   uiType: 'draggable',
   uiOptions: ['appendTo', 'helper','stack', 'delay', 'containment'],
-  uiEvents: []
+  uiEvents: ['start']
 })
 
 App.Draggable = Moveable.Draggable.extend({
@@ -89,7 +92,10 @@ App.Draggable = Moveable.Draggable.extend({
   helper: 'original',
   stack: '.card',
   delay: 75,
-  cancel : '.option-square'
+  cancel : '.option-square',
+  start: function(event, ui){
+    console.log('You\'re now dragging ' + this.get('controller').get('model'));
+  }
 })
 
 App.Droppable = Moveable.Droppable.extend({
@@ -97,22 +103,22 @@ App.Droppable = Moveable.Droppable.extend({
   hoverClass: 'ui-state-hover',
   accept: ':not(.ui-sortable-helper)',
   drop: function(event, ui) {
+    // Is this even kosher? Who knows? If you do, give me a holler...
     var controller = this.get('controller');
-    // hack
+    var currentBoard = this.get('controller').get('model');
+    var currentCard = this.get('content.cards');
+
+    console.dir(ui);
+    // {hack}
     var viewId = ui.draggable.attr('id');
     card = Ember.View.views[viewId].get('controller.content');
-    // hack
+    // {end-hack}
 
     controller.addSiblingCard(card);
-    // card.createRecord({title:title,content:content});
-    // card.store.commit();
-    // console.log('Dropped!');
-    // console.dir('this');
   },
   over:function(event, ui){
-    console.dir(arguments.callee.caller.name);
-    console.log('Why hello there...');
-    console.log(ui.draggable);
+    cards = this.get('controller.model');
+    console.log('You\'re now over ' + cards);
   }
 })
 

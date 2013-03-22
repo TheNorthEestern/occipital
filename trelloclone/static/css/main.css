@@ -30,7 +30,7 @@ body{
   line-height: 18px;
 }
 .card{
-  -webkit-transition: -webkit-transform .1257s ease .075s;
+  -webkit-transition: -webkit-transform .1057s ease .025s;
   background-color: #BFC1B5;
   position: relative;
   color: #333;
