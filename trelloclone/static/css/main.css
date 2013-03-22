@@ -84,3 +84,22 @@ body{
   right: 4px;
 }
 .row{ max-width: 300%;}
+@-webkit-keyframes pulse{
+  from {
+    background-color: #BFC1B5;
+    box-shadow: 1px 0px 1px #9c9f8d,0px 1px 1px #797c68,2px 1px 1px #9c9f8d,1px 2px 1px #797c68,3px 2px 1px #9c9f8d,2px 3px 1px #797c68,4px 3px 1px #9c9f8d,3px 4px 1px #797c68,5px 4px 1px #9c9f8d,4px 5px 1px #797c68,6px 5px 1px #9c9f8d, 10px 10px 10px #333;
+  }
+  50%{
+    background-color: #E4E5E0;
+    box-shadow: 1px 0px 1px #d6d7cf,0px 1px 1px #b4b6a9,2px 1px 1px #d6d7cf,1px 2px 1px #b4b6a9,3px 2px 1px #d6d7cf,2px 3px 1px #b4b6a9,4px 3px 1px #d6d7cf,3px 4px 1px #b4b6a9,5px 4px 1px #d6d7cf,4px 5px 1px #b4b6a9,6px 5px 1px #d6d7cf, 10px 10px 10px #333;
+  }
+  to{
+    background-color: #BFC1B5;
+    box-shadow: 1px 0px 1px #9c9f8d,0px 1px 1px #797c68,2px 1px 1px #9c9f8d,1px 2px 1px #797c68,3px 2px 1px #9c9f8d,2px 3px 1px #797c68,4px 3px 1px #9c9f8d,3px 4px 1px #797c68,5px 4px 1px #9c9f8d,4px 5px 1px #797c68,6px 5px 1px #9c9f8d, 10px 10px 10px #333;
+  }
+}
+.drop-ready{
+  -webkit-animation-name: pulse;
+  -webkit-animation-duration: .2s;
+  -webkit-animation-iteration-count: 3;
+}

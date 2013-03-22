@@ -7,11 +7,12 @@ var App = Ember.Application.create({
 });
 
 var attr = DS.attr;
-
 Ember.Handlebars.registerBoundHelper('pluralize', function(number, singular, plural){
   return (number === 1) ? singular : plural;
 });
 
+// You can learn more about using jQuery UI with
+// Ember in this blog post by Luke Melia: http://bit.ly/GSufjG 
 Moveable = Ember.Namespace.create();
 
 Moveable.Widget = Ember.Mixin.create({
@@ -25,7 +26,7 @@ Moveable.Widget = Ember.Mixin.create({
     var element = this.get('element');
     var that = this;
 
-    var ui = this.$()[uiType]( options, element);
+    var ui = this.$()[uiType](options, element);
 
     this.set('ui', ui);
   },
@@ -83,7 +84,7 @@ Moveable.Droppable = Ember.View.extend(Moveable.Widget, {
 
 Moveable.Draggable = Ember.View.extend(Moveable.Widget, {
   uiType: 'draggable',
-  uiOptions: ['appendTo', 'helper','stack', 'delay', 'containment'],
+  uiOptions: ['appendTo', 'helper','stack', 'delay', 'revert', 'revertDuration', 'cancel'],
   uiEvents: ['start']
 })
 
@@ -92,11 +93,13 @@ App.Draggable = Moveable.Draggable.extend({
   helper: 'original',
   stack: '.card',
   delay: 75,
-  cancel : '.option-square',
-  start: function(event, ui){
+  revert: true,
+  revertDuration: 250,
+  cancel : '.card .option-square',
+  start:function(event, ui){
     console.log('You\'re now dragging ' + this.get('controller').get('model'));
   }
-})
+});
 
 App.Droppable = Moveable.Droppable.extend({
   activeClass: 'ui-state-default',
@@ -108,7 +111,7 @@ App.Droppable = Moveable.Droppable.extend({
     var currentBoard = this.get('controller').get('model');
     var currentCard = this.get('content.cards');
 
-    console.dir(ui);
+    console.dir(ui.draggable);
     // {hack}
     var viewId = ui.draggable.attr('id');
     card = Ember.View.views[viewId].get('controller.content');
@@ -117,8 +120,7 @@ App.Droppable = Moveable.Droppable.extend({
     controller.addSiblingCard(card);
   },
   over:function(event, ui){
-    cards = this.get('controller.model');
-    console.log('You\'re now over ' + cards);
+    $(ui.draggable).toggleClass('drop-ready');
   }
 })
 
@@ -170,9 +172,6 @@ App.CreateBoardView = Ember.TextField.extend({
     board.store.commit();
     this.set('value', '');
   }
-});
-
-App.CreateCardController = Ember.ObjectController.extend({
 });
 
 App.BoardEntryItemController = Ember.ObjectController.extend({
