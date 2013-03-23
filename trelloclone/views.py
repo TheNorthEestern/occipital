@@ -26,6 +26,10 @@ class BoardList(generics.ListCreateAPIView):
     serializer_class = BoardSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
+    def get_queryset(self):
+        user = self.request.user
+        return Board.objects.filter(owner=user)
+
     def pre_save(self, obj):
         obj.owner_id = self.request.user.id
 
@@ -42,6 +46,10 @@ class CardList(generics.ListCreateAPIView):
     model = Card
     serializer_class = CardSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        user = self.request.user
+        return Card.objects.filter(board__owner=user)
 
 class CardDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Card
