@@ -12,12 +12,11 @@ body{
   border-radius: 5px;
   color: white;
   width: 300px;
-  #display: inline-block;
-  float: left;
-  margin-bottom: 10px;
-  margin-right: 10px;
+  #float: left;
+  display: inline-block;
   padding: 5px;
   min-height: 260px;
+  vertical-align: top;
   position: relative;
   -webkit-transition-property: height, width;
   -webkit-transition-duration: 1s;
@@ -30,7 +29,7 @@ body{
   line-height: 18px;
 }
 .card{
-  -webkit-transition: -webkit-transform .1057s ease .025s;
+  -webkit-transition: -webkit-transform .1057s ease .075s;
   background-color: #BFC1B5;
   position: relative;
   color: #333;
@@ -58,6 +57,41 @@ body{
   max-width: 215px;
   margin-bottom: 0;
   font-weight: bold;
+  white-space: normal;
+}
+.board .card .card-input{
+  background-color: #BFC1B5 ;
+  position: relative ;
+  color: #333 ;
+  margin: 0 auto ; 
+  width: 270px ;
+  box-shadow: 1px 0px 1px #9c9f8d,0px 1px 1px #797c68,2px 1px 1px #9c9f8d,1px 2px 1px #797c68,3px 2px 1px #9c9f8d,2px 3px 1px #797c68,4px 3px 1px #9c9f8d,3px 4px 1px #797c68,5px 4px 1px #9c9f8d,4px 5px 1px #797c68,6px 5px 1px #9c9f8d ;
+  padding: 10px ;
+  #margin-bottom: 10px ;
+  z-index: 1 ;
+}
+.card-input.title{
+  border-bottom: none;
+  font-weight: bold;
+  background-color: #BFC1B5 ;
+  position: relative ;
+  color: #333 ;
+  margin: 0 auto ; 
+  width: 270px ;
+  box-shadow: 1px 0px 1px #9c9f8d,0px 1px 1px #797c68,2px 1px 1px #9c9f8d,1px 2px 1px #797c68,3px 2px 1px #9c9f8d,2px 3px 1px #797c68,4px 3px 1px #9c9f8d,3px 4px 1px #797c68,5px 4px 1px #9c9f8d,4px 5px 1px #797c68,6px 5px 1px #9c9f8d ;
+  padding: 10px ;
+  #margin-bottom: 10px ;
+}
+.card-input.content{
+  border-top: none;
+  background-color: #BFC1B5 ;
+  position: relative ;
+  color: #333 ;
+  margin: 0 auto ; 
+  width: 270px ;
+  box-shadow: 1px 0px 1px #9c9f8d,0px 1px 1px #797c68,2px 1px 1px #9c9f8d,1px 2px 1px #797c68,3px 2px 1px #9c9f8d,2px 3px 1px #797c68,4px 3px 1px #9c9f8d,3px 4px 1px #797c68,5px 4px 1px #9c9f8d,4px 5px 1px #797c68,6px 5px 1px #9c9f8d ;
+  padding: 10px ;
+  #margin-bottom: 10px ;
 }
 .card-counter{
   position: absolute;
@@ -68,11 +102,14 @@ body{
   margin-top: 10px;
 }
 .container{
-  overflow-x: scroll;
+  position: relative;
+  float: left;
 }
 .main-content-area{
+  overflow-x: scroll;
+  overflow-y: hidden;
   margin-top: 70px;
-  width: 90%;
+  white-space: nowrap;
 }
 .option-square{
   -webkit-transition: background-color .3s ease-in-out;
@@ -83,7 +120,7 @@ body{
   top: 4px;
   right: 4px;
 }
-.row{ max-width: 300%;}
+.row{ max-width: 100%;}
 @-webkit-keyframes pulse{
   from {
     background-color: #BFC1B5;

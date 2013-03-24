@@ -188,9 +188,8 @@ App.BoardEntryItemController = Ember.ObjectController.extend({
       card.createRecord({title:title,content:content});
       card.store.commit();
     }
-  },
-  submit:function(){
     this.set('newCardTitle', '');
+    this.set('newCardContent', '');
   },
   addSiblingCard: function(card){
     var cards = this.get('content.cards');
