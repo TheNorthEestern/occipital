@@ -7,6 +7,11 @@
 {% block "content" %}
     {% load verbatim %}
     {% csrf_token %}
+    <noscript>
+      <div class="main-content-area">
+        <p style="text-align: center;">Please enable JavaScript to use Cranberry.</p>
+      </div>
+    </noscript>
     {% verbatim %}
     <script type="text/x-handlebars" data-template-name="application"> 
     <div class="row container">
