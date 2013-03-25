@@ -13,7 +13,7 @@ class Migration(SchemaMigration):
         db.alter_column(u'trelloclone_card', 'content', self.gf('django.db.models.fields.TextField')())
 
         # Changing field 'Card.board'
-        db.alter_column(u'trelloclone_card', 'board_id', self.gf('django.db.models.fields.related.ForeignKey')(default='', to=orm['trelloclone.Board']))
+        db.alter_column(u'trelloclone_card', 'board_id', self.gf('django.db.models.fields.related.ForeignKey')(default=-1, to=orm['trelloclone.Board']))
 
     def backwards(self, orm):
 
