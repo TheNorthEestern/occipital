@@ -189,16 +189,13 @@ App.BoardEntryItemController = Ember.ObjectController.extend({
   save: function(){
     var title = this.get('newCardTitle');
     var content = this.get('newCardContent');
-    if ( title && content ) {
+    if ( title ) {
       card = this.get('model').get('cards');
       card.createRecord({title:title,content:content});
       card.store.commit();
     }
     this.set('newCardTitle', '');
     this.set('newCardContent', '');
-  },
-  show: function(){
-    this.$().toggle();
   },
   addSiblingCard: function(card){
     var cards = this.get('content.cards');

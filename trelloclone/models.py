@@ -10,9 +10,9 @@ class Board(models.Model):
         return self.title
 
 class Card(models.Model):
-    board = models.ForeignKey(Board, null=False, related_name='cards')
+    board = models.ForeignKey(Board,blank=True,related_name='cards')
     title = models.CharField(max_length=140)
-    content = models.TextField()
+    content = models.TextField(default="",blank=True)
     pub_date = models.DateTimeField(auto_now=True,editable=False)
 
     def save(self, *args, **kwargs):
