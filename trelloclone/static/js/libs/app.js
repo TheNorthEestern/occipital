@@ -1,3 +1,4 @@
+
 var App = Ember.Application.create({
   customEvents:{
     // Necessary because of jQueryUI's 'drop' conflicts with
@@ -164,7 +165,7 @@ App.BoardsRoute = Ember.Route.extend({
   }
 });
 
-App.BoardsController = Ember.ArrayController.extend({sortProperties:['id']});
+App.BoardsController = Ember.ArrayController.extend({sortProperties:['id'], sortAscending:false});
 App.CardsController = Ember.ArrayController.extend({sortProperties:['id']});
 
 App.CreateBoardView = Ember.TextField.extend({
@@ -177,9 +178,14 @@ App.CreateBoardView = Ember.TextField.extend({
   }
 });
 
+App.CreateCardView = Ember.View.extend({
+  tagName : 'form'
+});
+
 App.BoardEntryItemController = Ember.ObjectController.extend({
   plural : 'cards',
   singular : 'card',
+  showNewCardForm: false,
   save: function(){
     var title = this.get('newCardTitle');
     var content = this.get('newCardContent');
@@ -190,6 +196,9 @@ App.BoardEntryItemController = Ember.ObjectController.extend({
     }
     this.set('newCardTitle', '');
     this.set('newCardContent', '');
+  },
+  show: function(){
+    this.$().toggle();
   },
   addSiblingCard: function(card){
     var cards = this.get('content.cards');

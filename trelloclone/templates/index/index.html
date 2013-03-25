@@ -40,14 +40,17 @@
               {{/view}}
             {{/each}}
             {{else}}
-              <p style="border: 3px dashed #52A290; border-radius: 5px; padding: 15px;background-color: #488D7E; text-align: center">Add a card...</p>
+              <p style="border: 3px dashed #52A290; border-radius: 5px; padding: 15px;background-color: #488D7E; text-align: center">No Cards</p>
             {{/if}}
           {{/view}}
-          <form action="" >
-          {{view Ember.TextField valueBinding="newCardTitle" placeholder="title" class="card-input title"}}
-          {{view Ember.TextField valueBinding="newCardContent" placeholder="content" class="card-input content"}}
-          <button type=submit {{action save}}>Create this card</button>
-          </form>
+          {{#view App.CreateCardView class="new-card-form"}}
+          {{#if showNewCardForm}}
+            {{view Ember.TextField valueBinding="newCardTitle" placeholder="title" class="card-input title"}}
+            {{view Ember.TextField valueBinding="newCardContent" placeholder="content" class="card-input content"}}
+            <button class="tiny button" type=submit {{action save}}>add</button>
+          {{/if}}
+          <p class="add-button" style="cursor: pointer; text-align: center; font-size: 2em; padding: 0; margin: 0;" {{action toggleProperty "showNewCardForm"}}>+</p>
+          {{/view}}
         </div>
       {{/each}}
     </script>

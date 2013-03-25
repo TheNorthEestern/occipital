@@ -12,10 +12,8 @@ body{
   border-radius: 5px;
   color: white;
   width: 300px;
-  #float: left;
   display: inline-block;
   padding: 5px;
-  min-height: 260px;
   vertical-align: top;
   position: relative;
   -webkit-transition-property: height, width;
@@ -46,11 +44,12 @@ body{
 .card:active{
   box-shadow: 1px 0px 1px #9c9f8d,0px 1px 1px #797c68,2px 1px 1px #9c9f8d,1px 2px 1px #797c68,3px 2px 1px #9c9f8d,2px 3px 1px #797c68,4px 3px 1px #9c9f8d,3px 4px 1px #797c68,5px 4px 1px #9c9f8d,4px 5px 1px #797c68,6px 5px 1px #9c9f8d, 10px 10px 10px #333;
   font-weight: bold;
-  #transform: rotate(-3deg);
+  transform: rotate(-3deg);
  -webkit-transform: scale(1.35,1.35);
 }
 .card:active .option-square{
   background-color: red;
+  z-index: 100;
 }
 .card .card-title{
   #font-size: 12px;
@@ -58,17 +57,6 @@ body{
   margin-bottom: 0;
   font-weight: bold;
   white-space: normal;
-}
-.board .card .card-input{
-  background-color: #BFC1B5 ;
-  position: relative ;
-  color: #333 ;
-  margin: 0 auto ; 
-  width: 270px ;
-  box-shadow: 1px 0px 1px #9c9f8d,0px 1px 1px #797c68,2px 1px 1px #9c9f8d,1px 2px 1px #797c68,3px 2px 1px #9c9f8d,2px 3px 1px #797c68,4px 3px 1px #9c9f8d,3px 4px 1px #797c68,5px 4px 1px #9c9f8d,4px 5px 1px #797c68,6px 5px 1px #9c9f8d ;
-  padding: 10px ;
-  #margin-bottom: 10px ;
-  z-index: 1 ;
 }
 .card-input.title{
   border-bottom: none;
