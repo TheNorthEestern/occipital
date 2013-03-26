@@ -8,8 +8,15 @@ body{
   background-color: #560011;
 }
 .board{
-  background-color: #335a4c;
-  border-radius: 5px;
+  background-color:#269;
+  background-image: linear-gradient(white 2px, transparent 2px),
+  linear-gradient(90deg, white 2px, transparent 2px),
+  linear-gradient(rgba(255,255,255,.3) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255,255,255,.3) 1px, transparent 1px);
+  background-size:100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position:-2px -2px, -2px -2px, -1px -1px, -1px -1px;
+  #background-color: #335a4c;
+  #background-color: #2F5FAE;
   color: white;
   width: 300px;
   display: inline-block;
@@ -26,6 +33,9 @@ body{
   min-width: 30px;
   line-height: 18px;
 }
+.new-card-form{
+  margin: 0;
+}
 .card{
   -webkit-transition: -webkit-transform .1057s ease .075s;
   background-color: #BFC1B5;
@@ -36,7 +46,6 @@ body{
   box-shadow: 1px 0px 1px #9c9f8d,0px 1px 1px #797c68,2px 1px 1px #9c9f8d,1px 2px 1px #797c68,3px 2px 1px #9c9f8d,2px 3px 1px #797c68,4px 3px 1px #9c9f8d,3px 4px 1px #797c68,5px 4px 1px #9c9f8d,4px 5px 1px #797c68,6px 5px 1px #9c9f8d;
   padding: 10px;
   margin-bottom: 10px;
-  z-index: 1;
 }
 .card:hover{
   cursor: pointer;
@@ -45,7 +54,8 @@ body{
   box-shadow: 1px 0px 1px #9c9f8d,0px 1px 1px #797c68,2px 1px 1px #9c9f8d,1px 2px 1px #797c68,3px 2px 1px #9c9f8d,2px 3px 1px #797c68,4px 3px 1px #9c9f8d,3px 4px 1px #797c68,5px 4px 1px #9c9f8d,4px 5px 1px #797c68,6px 5px 1px #9c9f8d, 10px 10px 10px #333;
   font-weight: bold;
   transform: rotate(-3deg);
- -webkit-transform: scale(1.35,1.35);
+ -webkit-transform: scale(1.4,1.4);
+  z-index: 1000;
 }
 .card:active .option-square{
   background-color: red;
@@ -60,6 +70,7 @@ body{
 }
 .card-input.title{
   border-bottom: none;
+  font-size: 16px;
   font-weight: bold;
   background-color: #BFC1B5 ;
   position: relative ;
@@ -93,10 +104,12 @@ body{
   position: relative;
   float: left;
 }
+.new-board-form{
+  margin-top: 50px;
+}
 .main-content-area{
   overflow-x: scroll;
   overflow-y: hidden;
-  margin-top: 70px;
   white-space: nowrap;
 }
 .option-square{
@@ -107,6 +120,31 @@ body{
   position: absolute;
   top: 4px;
   right: 4px;
+}
+.card-form-controls{
+  width: 270px;
+  margin: 0 auto;
+}
+.card-form-controls button.confirm{
+  background-color: rgba(174, 204, 129, 1);
+  border-color: transparent transparent #95bc5b #95bc5b;
+  box-shadow: 1px 0px 1px #9c9f8d,0px 1px 1px #71943c,2px 1px 1px #9c9f8d,1px 2px 1px #71943c,3px 2px 1px #9c9f8d,2px 3px 1px #71943c,4px 3px 1px #9c9f8d,3px 4px 1px #71943c,5px 4px 1px #9c9f8d,4px 5px 1px #71943c,6px 5px 1px #9c9f8d ;
+}
+.card-form-controls button.cancel{
+  background-color: rgba(184, 58, 51, 1);
+  border-color: transparent #8D2412 #8D2412 transparent;
+  box-shadow: 1px 0px 1px #8D2412 ,0px 1px 1px #5e180c,2px 1px 1px #8D2412,1px 2px 1px #5e180c,3px 2px 1px #8D2412,2px 3px 1px #5e180c,4px 3px 1px #8D2412,3px 4px 1px #5e180c,5px 4px 1px #8D2412,4px 5px 1px #5e180c,6px 5px 1px #8D2412;
+}
+.card-form-controls button{
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  float: left;
+}
+.clearfix:after{
+  content: " ";
+  display: block;
+  height: 0;
+  clear: both;
 }
 .row{ max-width: 100%;}
 @-webkit-keyframes pulse{

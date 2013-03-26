@@ -15,21 +15,21 @@
     {% verbatim %}
     <script type="text/x-handlebars" data-template-name="application"> 
     <div class="row container">
+      <div class="new-board-form">{{view App.CreateBoardView}}</div>
       <div class="main-content-area large-12 columns">
           {{outlet}}
       </div>
     </div>
     </script>
     <script type="text/x-handlebars" data-template-name="boards">
-      {{view App.CreateBoardView}}
       {{#each board in controller itemController='boardEntryItem'}}
         <div class="board">
           <h4 class="board-title" style="display: inline;">{{board.title}}</h4>
-          <p class="alert label card-counter">
+          <p class="label card-counter">
           {{#if board.cards }}
             {{board.cards.length}} {{pluralize board.cards.length board.singular board.plural}}
           {{else}}
-            No Cards
+            No cards
           {{/if}}
           </p>
           {{#view App.Droppable class="card-list"}}
@@ -42,14 +42,18 @@
             {{else}}
               <p style="border: 3px dashed #52A290; border-radius: 5px; padding: 15px;background-color: #488D7E; text-align: center">No Cards</p>
             {{/if}}
-          {{/view}}
-          {{#view App.CreateCardView class="new-card-form"}}
-          {{#if showNewCardForm}}
-            {{view Ember.TextField valueBinding="newCardTitle" placeholder="title" class="card-input title"}}
-            {{view Ember.TextField valueBinding="newCardContent" placeholder="content" class="card-input content"}}
-            <button class="tiny button" type=submit {{action save}}>add</button>
-          {{/if}}
-          <p class="add-button" style="cursor: pointer; text-align: center; font-size: 2em; padding: 0; margin: 0;" {{action toggleProperty "showNewCardForm"}}>+</p>
+            {{#if showNewCardForm}}
+              {{#view App.CreateCardView class="new-card-form"}}
+                {{view Ember.TextField valueBinding="newCardTitle" placeholder="title" class="card-input title"}}
+                {{view Ember.TextField valueBinding="newCardContent" placeholder="content" class="card-input content"}}
+                <div class="clearfix card-form-controls">
+                  <button style="width:210px; margin:0;" class="button confirm" type=submit {{action save}}>&#x2714;</button>
+                  <button style="width:60px; margin:0;" class="button cancel" type=submit {{action toggleProperty "showNewCardForm"}}>&#x2715;</button>
+                </div><br>
+              {{/view}}
+            {{else}}
+              <p class="add-button" style="cursor: pointer; text-align: center; font-size: 2em; padding: 0; margin: 0;" {{action toggleProperty "showNewCardForm"}}>+</p>
+            {{/if}}
           {{/view}}
         </div>
       {{/each}}

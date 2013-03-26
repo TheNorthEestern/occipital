@@ -165,7 +165,13 @@ App.BoardsRoute = Ember.Route.extend({
   }
 });
 
-App.BoardsController = Ember.ArrayController.extend({sortProperties:['id'], sortAscending:false});
+App.BoardsController = Ember.ArrayController.extend({
+  sortProperties:['id'], 
+  sortAscending:false, 
+  showNewCardForm: true,
+  activeForm : 0
+});
+
 App.CardsController = Ember.ArrayController.extend({sortProperties:['id']});
 
 App.CreateBoardView = Ember.TextField.extend({
@@ -185,11 +191,12 @@ App.CreateCardView = Ember.View.extend({
 App.BoardEntryItemController = Ember.ObjectController.extend({
   plural : 'cards',
   singular : 'card',
-  showNewCardForm: false,
   save: function(){
     var title = this.get('newCardTitle');
     var content = this.get('newCardContent');
     if ( title ) {
+      if (!content)
+        content = "";
       card = this.get('model').get('cards');
       card.createRecord({title:title,content:content});
       card.store.commit();
