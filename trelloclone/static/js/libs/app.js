@@ -191,7 +191,7 @@ App.CreateCardView = Ember.View.extend({
 App.BoardEntryItemController = Ember.ObjectController.extend({
   plural : 'cards',
   singular : 'card',
-  needs: ['boardsController'],
+  // needs: ['boardsController'],
   save: function(){
     var title = this.get('newCardTitle');
     var content = this.get('newCardContent');
