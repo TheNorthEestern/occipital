@@ -33,15 +33,11 @@
           {{/if}}
           </p>
           {{#view App.Droppable class="card-list"}}
-            {{#if board.cards}}
             {{#each card in board.cards itemController='cardEntryItem'}}
               {{#view App.Draggable class="card"}}
                 <p class="card-title">{{card.title}}</p><div class="option-square" {{action delete}}></div>
               {{/view}}
             {{/each}}
-            {{else}}
-              <p style="border: 3px dashed #52A290; border-radius: 5px; padding: 15px;background-color: #488D7E; text-align: center">No Cards</p>
-            {{/if}}
             {{#if showNewCardForm}}
               {{#view App.CreateCardView class="new-card-form"}}
                 {{view Ember.TextField valueBinding="newCardTitle" placeholder="title" class="card-input title"}}
@@ -52,7 +48,7 @@
                 </div><br>
               {{/view}}
             {{else}}
-              <p class="add-button" style="cursor: pointer; text-align: center; font-size: 2em; padding: 0; margin: 0;" {{action toggleProperty "showNewCardForm"}}>+</p>
+              <p class="add-button" {{action toggleProperty "showNewCardForm"}}>+</p>
             {{/if}}
           {{/view}}
         </div>

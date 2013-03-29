@@ -8,7 +8,9 @@ body{
   background-color: #560011;
 }
 .board{
-  background-color:#269;
+  background-color: #E5EFED;
+  border: 2px solid gray;
+  border-radius: 5px;
   /* background-image: linear-gradient(white 2px, transparent 2px),
   linear-gradient(90deg, white 2px, transparent 2px),
   linear-gradient(rgba(255,255,255,.3) 1px, transparent 1px),
@@ -26,8 +28,12 @@ body{
   -webkit-transition-property: height, width;
   -webkit-transition-duration: 1s;
 }
+.board-empty{
+  text-align: center;
+  color: #000;
+}
 .board .board-title{
-  color: white;
+  color: #333;
   font-size: 15px;
   min-height: 19px;
   min-width: 30px;
@@ -120,6 +126,14 @@ body{
   position: absolute;
   top: 4px;
   right: 4px;
+}
+.add-button{
+  color: black;
+  cursor: pointer; 
+  text-align: center; 
+  font-size: 2em; 
+  padding: 0; 
+  margin: 0;
 }
 .card-form-controls{
   width: 270px;
