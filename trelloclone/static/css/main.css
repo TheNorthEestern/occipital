@@ -1,4 +1,10 @@
+@font-face{
+  font-family : "NeutraTextTF-BoldAlt";
+  src: url('/static/fonts/NeutraTextTF-BoldAlt.woff') format('woff');
+  src: url('/static/fonts/NeutraTextTF-BoldAlt.otf') format('otf');
+}
 body{
+  font-family: "NeutraTextTF-BoldAlt";
   background-color: #f7f7f7;
 }
 .top-bar{
