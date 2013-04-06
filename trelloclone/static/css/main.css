@@ -4,14 +4,27 @@
   src: url('/static/fonts/NeutraTextTF-BoldAlt.otf') format('otf');
 }
 body{
-  font-family: "NeutraTextTF-BoldAlt";
+  #font-family: "NeutraTextTF-BoldAlt", Helvetica, sans-serif;
   background-color: #f7f7f7;
 }
 .top-bar{
-  background-color: #7F0019;
+  background-color: white;
+  height: 100px;
+  padding: 10px 40px 0 40px;
+  #box-shadow: 0px 0px 10px 10px #efefef;
 }
-.top-bar-section li a:not(.button){
-  background-color: #560011;
+.top-bar .name .site-name{
+  font-family: "NeutraTextTF-BoldAlt";
+  background-color: #FF7C3C;
+  font-size: 2.5em;
+  padding: 11.5px 21px 11.5px 21px;
+  box-shadow: 1px 0px 1px #F66200,0px 1px 1px #D45500,2px 1px 1px #F66200,1px 2px 1px #D45500,3px 2px 1px #F66200,2px 3px 1px #D45500,4px 3px 1px #F66200,3px 4px 1px #D45500,5px 4px 1px #F66200,4px 5px 1px #D45500,6px 5px 1px #F66200;
+}
+/* .top-bar .name .site-name:active{ box-shadow: 1px 0px 1px #F66200,0px 1px 1px #d45500,2px 1px 1px #F66200,1px 2px 1px #d45500,3px 2px 1px #F66200;top:-2px;left:3px; } */
+.top-bar .name .site-name a{
+  padding: 0;
+	#text-shadow: 0px 0px 0px #aaa, -1px -1px 0px #aaa, -2px -2px 0px #aaa, -3px -3px 0px #aaa, -4px -4px 0px #aaa, -5px -5px 0px #aaa, -6px -6px 5px rgba(0, 0, 028, 0.75);
+  #text-shadow: 1px 0px 1px #aaa,0px 1px 1px #aaa,2px 1px 1px #aaa,1px 2px 1px #aaa,3px 2px 1px #aaa,2px 3px 1px #aaa,4px 3px 1px #aaa,3px 4px 1px #aaa,5px 4px 1px #aaa,4px 5px 1px #aaa,6px 5px 1px #aaa;
 }
 .board{
   background-color: #E5EFED;
@@ -115,9 +128,7 @@ body{
 .container{
   position: relative;
   float: left;
-}
-.new-board-form{
-  margin-top: 50px;
+  margin-top: 110px;
 }
 .main-content-area{
   overflow-x: scroll;

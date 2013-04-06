@@ -125,6 +125,7 @@ App.Droppable = Moveable.Droppable.extend({
   },
   over:function(event, ui){
     $(ui.draggable).toggleClass('drop-ready');
+    console.log($(ui.draggable)[0].style.animationName);
   }
 })
 

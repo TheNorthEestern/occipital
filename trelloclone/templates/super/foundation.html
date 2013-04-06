@@ -10,11 +10,16 @@
 <div class="fixed">
   <nav class="top-bar">
     <ul class="title-area">
-      <li class="name">
-      <h1><a href="/">Cranberry (A Trello Clone)</a></h1>
+      <li class="name ">
+      <h1 class="site-name"><a href="/">Occipital</a></h1>
       </li>
     </ul>
-    <section class="top-bar-section">
+    <section  class="top-bar-section">
+      <ul>
+        <li>new...</li>
+      </ul>
+    </section>
+    <section class="top-bar-section right">
       <ul class="title-area">
       {% if user.is_authenticated %}
       <li class="name"><h1><a href="#">{{user.username}}</a></h1></li>
