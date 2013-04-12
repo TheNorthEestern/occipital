@@ -1,4 +1,30 @@
 (function() {
+    var get = Ember.get;
+
+    DS.DjangoRESTSerializer = DS.RESTSerializer.extend({
+
+        keyForHasMany: function(type, name) {
+            return this.keyForAttributeName(type, name);
+        },
+
+        keyForBelongsTo: function(type, name) {
+            return this.keyForAttributeName(type, name);
+        },
+
+        addBelongsTo: function(hash, record, key, relationship) {
+            var id = get(record, relationship.key+'.id');
+
+            if (!Ember.isNone(id)) {
+                hash[key] = id;
+                //provide the adapter with parent information for the create
+                record['parent_key'] = relationship.key;
+                record['parent_value'] = id;
+            }
+        }
+    });
+
+})();
+(function() {
     var get = Ember.get, set = Ember.set;
 
     DS.DjangoRESTAdapter = DS.RESTAdapter.extend({
@@ -11,12 +37,11 @@
             , root = this.rootForType(type)
             , data  = record.serialize()
             , url = this.buildUrlWithParentWhenAvailable(record, this.buildURL(root));
+
             this.ajax(url, "POST", {
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(data),
-                headers: { 'X-CSRFToken' : $.cookie('csrftoken') },
+                data: data,
                 context: this,
+                headers: { 'X-CSRFToken' : $.cookie('csrftoken') },
                 success: function(pre_json) {
                     json[root] = pre_json;
                     Ember.run(this, function(){
@@ -37,8 +62,8 @@
 
             this.ajax(this.buildURL(root, id), "PUT", {
                 data: data,
-                headers: { 'X-CSRFToken' : $.cookie('csrftoken') },
                 context: this,
+                headers: { 'X-CSRFToken' : $.cookie('csrftoken') },
                 success: function(pre_json) {
                     json[root] = pre_json;
                     Ember.run(this, function(){
@@ -117,7 +142,7 @@
         ajax: function(url, type, hash) {
             hash.url = url;
             hash.type = type;
-            hash.headers = { 'X-CSRFToken' : $.cookie('csrftoken') },
+            hash.header = { 'X-CSRFToken': $.cookie('csrftoken') },
             hash.cache = false;
             hash.dataType = 'json';
             hash.context = this;
@@ -156,8 +181,43 @@
                 url = url.replace(endpoint, parent_plural + "/" + parent_value + "/" + endpoint);
             }
             return url;
-        }
+        },
 
+        /**
+          RESTAdapter expects HTTP 422 for invalid records and a JSON response
+          with errors inside JSON root `errors`, however DRF uses 400
+          and errors without a JSON root.
+        */
+        didError: function(store, type, record, xhr) {
+            if (xhr.status === 400) {
+                var data = JSON.parse(xhr.responseText)
+                var errors = {}
+
+                // Convert error key names
+                // https://github.com/emberjs/data/blob/master/packages/ember-data/lib/system/store.js#L1010-L1012
+                record.eachAttribute(function(name) {
+                    var attr = this.serializer.keyForAttributeName(type, name);
+                    if (attr in data) {
+                        errors[name] = data[attr];
+                    }
+                }, this);
+                record.eachRelationship(function(name, relationship) {
+                    var attr = null;
+                    if (relationship.kind == 'belongsTo') {
+                        attr = this.serializer.keyForBelongsTo(type, name);
+                    } else {
+                        attr = this.serializer.keyForHasMany(type, name);
+                    }
+                    if (attr in data) {
+                        errors[name] = data[attr];
+                    }
+                }, this);
+
+                store.recordWasInvalid(record, errors)
+            } else {
+                this._super.apply(this, arguments)
+            }
+        }
     });
 
 })();
