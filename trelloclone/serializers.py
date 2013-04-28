@@ -11,7 +11,8 @@ class CardSerializer(serializers.ModelSerializer):
 
 class BoardSerializer(serializers.ModelSerializer):
     owner = serializers.Field(source='owner.username')
-    card_ids = serializers.PrimaryKeyRelatedField(many=True, read_only=True, source='cards', widget=widgets.Textarea)
+    cards = serializers.PrimaryKeyRelatedField(many=True, read_only=True, source='cards', widget=widgets.Textarea)
+    # cards = CardSerializer(many=True)
     """
         Currently, cards are sideloaded (In other words, a request is made
         for each card belonging to a particular board)
@@ -26,5 +27,5 @@ class BoardSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Board
-        resource_name = 'board'
-        fields = ('owner','id', 'title', 'card_ids',)
+        resource_name = 'boards'
+        fields = ('owner','id', 'title', 'cards',)

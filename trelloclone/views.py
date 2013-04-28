@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from .models import Board, Card
 from .permissions import IsOwnerOrReadOnly
-from .renderers import CustomJSONRenderer
+from .renderers import CustomJSONRenderer, EmberJSONRenderer
 from .serializers import BoardSerializer, CardSerializer
 
 @api_view(('GET',))
@@ -25,6 +25,7 @@ class BoardList(generics.ListCreateAPIView):
     model = Board
     serializer_class = BoardSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    #renderer_classes = (EmberJSONRenderer,)
 
     def get_queryset(self):
         user = self.request.user

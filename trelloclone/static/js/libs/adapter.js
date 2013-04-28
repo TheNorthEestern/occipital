@@ -41,7 +41,6 @@
             this.ajax(url, "POST", {
                 data: data,
                 context: this,
-                headers: { 'X-CSRFToken' : $.cookie('csrftoken') },
                 success: function(pre_json) {
                     json[root] = pre_json;
                     Ember.run(this, function(){
@@ -63,7 +62,6 @@
             this.ajax(this.buildURL(root, id), "PUT", {
                 data: data,
                 context: this,
-                headers: { 'X-CSRFToken' : $.cookie('csrftoken') },
                 success: function(pre_json) {
                     json[root] = pre_json;
                     Ember.run(this, function(){
@@ -142,7 +140,6 @@
         ajax: function(url, type, hash) {
             hash.url = url;
             hash.type = type;
-            hash.header = { 'X-CSRFToken': $.cookie('csrftoken') },
             hash.cache = false;
             hash.dataType = 'json';
             hash.context = this;
@@ -165,10 +162,14 @@
 
             var root = this.rootForType(type);
             var url = this.buildURL(root);
-            var parentType = store.typeForClientId(parent.get('clientId'));
+            var parentType = this.getTypeForModel(parent);
             var record = Ember.Object.create({'parent_type': parentType, 'parent_value': parent.get('id')});
 
             return this.buildUrlWithParentWhenAvailable(record, url);
+        },
+
+        getTypeForModel: function(model) {
+            return model.toString().split(":")[0].replace("<", "");
         },
 
         getBelongsTo: function(record) {

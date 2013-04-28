@@ -1,8 +1,18 @@
 {% extends "super/foundation.html" %}
-{% block "title" %}Cranberry{% endblock %}
+{% block "title" %}Occipital{% endblock %}
 {% block "css" %}
 <link rel="stylesheet" href="/static/css/foundation.min.css">
 <link rel="stylesheet" href="/static/css/main.css">
+{% endblock %}
+{% block "js" %}
+<script>
+ jQuery(document).ajaxSend(function(event, xhr, settings) {
+    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+      var token = $('meta[name="csrf-token"]').attr('content');
+      xhr.setRequestHeader("X-CSRFToken", token);
+    }
+  });
+</script>
 {% endblock %}
 {% block "content" %}
     {% load verbatim %}

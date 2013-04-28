@@ -1,4 +1,3 @@
-
 var App = Ember.Application.create({
   customEvents:{
     // Necessary because of jQueryUI's 'drop' conflicts with
@@ -125,7 +124,7 @@ App.Droppable = Moveable.Droppable.extend({
   },
   over:function(event, ui){
     $(ui.draggable).toggleClass('drop-ready');
-    console.log($(ui.draggable)[0].style.animationName);
+    // console.log($(ui.draggable)[0].style.animationName);
   }
 })
 
@@ -221,13 +220,9 @@ App.CardEntryItemController = Ember.ObjectController.extend({
   }
 });
 
-App.Owner = DS.Model.extend({
-  boards:DS.hasMany('App.Board'),
-});
-
 App.Board = DS.Model.extend({
-  owner:attr('string'), 
-  cards:DS.hasMany('App.Card'),
+  owner: attr('string'),
+  cards: DS.hasMany('App.Card'),
   title: attr('string'),
   resource_uri: attr('string')
 });

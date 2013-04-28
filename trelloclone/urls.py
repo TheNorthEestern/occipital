@@ -1,10 +1,10 @@
 # from trelloclone.api import BoardResource, CardResource, UserResource
+import views
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login
 from rest_framework.urlpatterns import format_suffix_patterns
-import views
 from .decorators import anonymous_required
 
 urlpatterns = patterns('',
@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'api/v1/boards/(?P<pk>[0-9]+)/cards/$', views.card_relative_to_parent_detail),
     url(r'api/v1/cards/$', views.CardList.as_view(), name='card-list'),
     url(r'api/v1/cards/(?P<pk>[0-9]+)/$', views.CardDetail.as_view(),name='card-detail'),
+    #url(r'api/v1/cards/$', views.CardList.as_view(), name='card-list'),
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns)

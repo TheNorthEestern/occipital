@@ -1,7 +1,8 @@
 @font-face{
   font-family : "NeutraTextTF-BoldAlt";
-  src: url('/static/fonts/NeutraTextTF-BoldAlt.woff') format('woff');
-  src: url('/static/fonts/NeutraTextTF-BoldAlt.otf') format('otf');
+  src: url('static/fonts/NeutraTextTF-BoldAlt.woff') format('woff');
+  src: url('static/fonts/NeutraTextTF-BoldAlt.woff') format('ttf');
+  src: url('static/fonts/NeutraTextTF-BoldAlt.otf') format('otf');
 }
 body{
   #font-family: "NeutraTextTF-BoldAlt", Helvetica, sans-serif;
