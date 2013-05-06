@@ -1,14 +1,12 @@
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import generics
-from rest_framework import permissions
-from rest_framework import renderers 
-from rest_framework import status 
+from rest_framework import generics, permissions, renderers, status
 from rest_framework.decorators import api_view, renderer_classes, permission_classes
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.views import APIView
 from .models import Board, Card
 from .permissions import IsOwnerOrReadOnly
 from .renderers import CustomJSONRenderer, EmberJSONRenderer
@@ -68,11 +66,19 @@ class JSONResponse(HttpResponse):
 # with a particular board
 @permission_classes(permissions.IsAuthenticatedOrReadOnly,)
 @renderer_classes((CustomJSONRenderer,))
-def card_relative_to_parent_detail(request, pk):
-    try:
-        cards = Board.objects.get(pk=pk).cards.all()
-    except Board.DoesNotExist:
-        return HttpResponse('A board with that id does not exist',status=status.HTTP_404_NOT_FOUND)
+def card_relative_to_parent_detail(request, board_pk, card_pk):
+    if board_pk and card_pk:
+        try:
+            cards = Board.objects.get(pk=board_pk).cards.get(pk=card_pk)
+        except Board.DoesNotExist:
+            return HttpResponse('A board with that id does not exist',status=status.HTTP_404_NOT_FOUND)
+        except Card.DoesNotExist:
+            return HttpResponse('A card with that id does not exist',status=status.HTTP_404_NOT_FOUND)
+    else:
+        try:
+            cards = Board.objects.get(pk=board_pk).cards.all()
+        except Board.DoesNotExist:
+            return HttpResponse('A board with that id does not exist',status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = CardSerializer(cards)
