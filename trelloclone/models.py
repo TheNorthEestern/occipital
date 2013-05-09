@@ -2,8 +2,15 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
-class Board(models.Model):
+class Wall(models.Model):
     owner = models.ForeignKey(User)
+    title = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return "%s -> %s" % (self.owner, self.title)
+
+class Board(models.Model):
+    wall = models.ForeignKey(Wall, null=True, blank=True)
     title = models.CharField(max_length=70)
 
     def __unicode__(self):

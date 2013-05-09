@@ -10,7 +10,7 @@ class CardSerializer(serializers.ModelSerializer):
         fields = ('id', 'board', 'title', 'content',)
 
 class BoardSerializer(serializers.ModelSerializer):
-    owner = serializers.Field(source='owner.username')
+    wall = serializers.Field(source='wall.title')
     cards = serializers.PrimaryKeyRelatedField(many=True, read_only=True, source='cards', widget=widgets.Textarea)
     # cards = CardSerializer(many=True)
     """
@@ -28,4 +28,4 @@ class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
         resource_name = 'boards'
-        fields = ('owner','id', 'title', 'cards',)
+        fields = ('wall','id', 'title', 'cards',)

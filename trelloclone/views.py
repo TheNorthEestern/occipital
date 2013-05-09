@@ -19,6 +19,12 @@ def api_root(request, format=None):
         'cards':reverse('card-list', request=request, format=format),
     })
 
+class WallList(generics.ListCreateAPIView):
+    pass
+
+class WallDetail():
+    pass
+
 class BoardList(generics.ListCreateAPIView):
     model = Board
     serializer_class = BoardSerializer
@@ -27,7 +33,7 @@ class BoardList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Board.objects.filter(owner=user)
+        return Board.objects.filter(wall__owner=user)
 
     def pre_save(self, obj):
         obj.owner_id = self.request.user.id
