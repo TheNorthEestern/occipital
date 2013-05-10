@@ -7,23 +7,32 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
-from .models import Board, Card
+from .models import Wall, Board, Card
 from .permissions import IsOwnerOrReadOnly
 from .renderers import CustomJSONRenderer, EmberJSONRenderer
-from .serializers import BoardSerializer, CardSerializer
+from .serializers import WallSerializer, BoardSerializer, CardSerializer
 
 @api_view(('GET',))
 def api_root(request, format=None):
     return Response({
+        'walls':reverse('wall-list', request=request, format=format),
         'boards':reverse('board-list', request=request, format=format),
-        'cards':reverse('card-list', request=request, format=format),
+        'cards':reverse('single-card-list', request=request, format=format),
     })
 
 class WallList(generics.ListCreateAPIView):
-    pass
+    model = Wall
+    serializer_class = WallSerializer
+    permissions_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    
+    def get_queryset(self):
+        user = self.request.user
+        return Wall.objects.filter(owner=user)
 
-class WallDetail():
-    pass
+class WallDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Wall
+    serializer_class = WallSerializer
+    permissions_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class BoardList(generics.ListCreateAPIView):
     model = Board
@@ -54,7 +63,7 @@ class CardList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Card.objects.filter(board__owner=user)
+        return Card.objects.filter(board__wall__owner=user)
 
 class CardDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Card

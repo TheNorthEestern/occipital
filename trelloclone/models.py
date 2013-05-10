@@ -10,7 +10,7 @@ class Wall(models.Model):
         return "%s -> %s" % (self.owner, self.title)
 
 class Board(models.Model):
-    wall = models.ForeignKey(Wall, null=True, blank=True)
+    wall = models.ForeignKey(Wall, null=True, blank=True, related_name='boards')
     title = models.CharField(max_length=70)
 
     def __unicode__(self):
