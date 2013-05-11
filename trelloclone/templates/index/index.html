@@ -30,6 +30,11 @@
       </div>
     </div>
     </script>
+    <script type="text/x-handlebars" data-template-name="walls">
+      {{#each wall in controller}}
+        {{#linkTo "walls.index"}}<p>{{wall.title}}</p>{{/linkTo}}
+      {{/each}}
+    </script>
     <script type="text/x-handlebars" data-template-name="boards">
       {{#each board in controller itemController='boardEntryItem'}}
         <div class="board">
@@ -44,7 +49,7 @@
           {{#view App.Droppable class="card-list"}}
             {{#each card in board.cards itemController='cardEntryItem'}}
               {{#view App.Draggable class="card"}}
-                <p class="card-title">{{card.title}}</p><div class="option-square" {{action delete}}></div>
+                <p class="card-title">{{card.title}}</p><div class="option-square" {{action deleteCard}}></div>
               {{/view}}
             {{/each}}
             {{#if showNewCardForm}}

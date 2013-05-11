@@ -80,13 +80,13 @@ Moveable.Droppable = Ember.View.extend(Moveable.Widget, {
   uiType: 'droppable',
   uiOptions: ['activeClass', 'hoverClass', 'accept'],
   uiEvents: ['drop','over']
-})
+});
 
 Moveable.Draggable = Ember.View.extend(Moveable.Widget, {
   uiType: 'draggable',
   uiOptions: ['appendTo', 'helper','stack', 'delay', 'revert', 'revertDuration', 'cancel'],
   uiEvents: ['start']
-})
+});
 
 App.Draggable = Moveable.Draggable.extend({
   appendTo: 'body',
@@ -126,7 +126,7 @@ App.Droppable = Moveable.Droppable.extend({
     $(ui.draggable).toggleClass('drop-ready');
     // console.log($(ui.draggable)[0].style.animationName);
   }
-})
+});
 
 App.loginController = Ember.Object.create({
   login: function(username, password){
@@ -134,28 +134,23 @@ App.loginController = Ember.Object.create({
   }
 });
 
-App.LoginFormView = Ember.View.extend({
-  tagName: 'form',
-  username: null,
-  password: null,
-  submit: function(event){
-    event.preventDefault();
-    var username = this.get('');
-    var password = this.get('password');
-  },
-
-});
-
 App.Router.map(function(){
   this.resource('application');
-  this.resource('boards', function(){
-    this.resource('board', {path:':board_id'});
+  this.resource('walls', function(){
+    this.resource('wall', {path:':wall_id'});
   });
 });
 
 App.IndexRoute = Ember.Route.extend({
   redirect:function(){
-    this.transitionTo('boards');
+    this.transitionTo('walls');
+  }
+});
+
+// Since this pattern is so common, it's the default
+App.WallsRoute = Ember.Route.extend({
+  model: function(params){
+    return App.Wall.find(params.wall_id);
   }
 });
 
@@ -164,6 +159,8 @@ App.BoardsRoute = Ember.Route.extend({
     return App.Board.find();
   }
 });
+
+App.WallsController = Ember.ArrayController;
 
 App.BoardsController = Ember.ArrayController.extend({
   sortProperties:['id'], 
@@ -207,21 +204,27 @@ App.BoardEntryItemController = Ember.ObjectController.extend({
   },
   addSiblingCard: function(card){
     var cards = this.get('content.cards');
-    Ember.Logger.info(card.toString(), ' added to ' , cards.toString())
-    cards.addObject(card)
+    Ember.Logger.info(card.toString(), ' added to ' , cards.toString());
+    cards.addObject(card);
   }
 });
 
 App.CardEntryItemController = Ember.ObjectController.extend({
-  delete: function(){
+  deleteCard: function(){
     currentCard = this.get('model');
     currentCard.deleteRecord();
     currentCard.store.commit();
   }
 });
 
-App.Board = DS.Model.extend({
+App.Wall = DS.Model.extend({
   owner: attr('string'),
+  title: attr('string'),
+  boards: DS.hasMany('App.Board')
+});
+
+App.Board = DS.Model.extend({
+  wall: DS.belongsTo('App.Wall'),
   cards: DS.hasMany('App.Card'),
   title: attr('string'),
   resource_uri: attr('string')
