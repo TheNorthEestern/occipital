@@ -24,7 +24,6 @@
     {% verbatim %}
     <script type="text/x-handlebars" data-template-name="application"> 
     <div class="row container">
-      <div class="new-board-form">{{view App.CreateBoardView}}</div>
       <div class="main-content-area large-12 columns">
           {{outlet}}
       </div>
@@ -36,6 +35,7 @@
       {{/each}}
     </script>
     <script type="text/x-handlebars" data-template-name="boards">
+      <div class="new-board-form">{{view App.CreateBoardView}}</div>
       {{#each board in controller itemController='boardEntryItem'}}
         <div class="board">
           <h4 class="board-title" style="display: inline;">{{board.title}}</h4>
