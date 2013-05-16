@@ -1,4 +1,5 @@
 var App = Ember.Application.create({
+  LOG_TRANSITIONS:true,
   customEvents:{
     // Necessary because of jQueryUI's 'drop' conflicts with
     // Ember's built-in support for Native 'drop' (http://bit.ly/1048i82)
@@ -136,30 +137,31 @@ App.loginController = Ember.Object.create({
 
 App.Router.map(function(){
   this.resource('application');
-  this.resource('walls', function(){
-    this.resource('wall', {path:':wall_id'});
+  this.resource('wall', {path:'/wall/:wall_id'}, function(){
+   this.resource('boards', {path:'/boards/'});             
   });
 });
 
+// Since this pattern is so common, it's the default
 App.IndexRoute = Ember.Route.extend({
-  redirect:function(){
-    this.transitionTo('walls');
+  model: function(params){
+    return App.Wall.find();
   }
 });
 
-// Since this pattern is so common, it's the default
-App.WallsRoute = Ember.Route.extend({
+App.WallRoute = Ember.Route.extend({
   model: function(params){
-    return App.Wall.find(params.wall_id);
+    return App.Wall.find(params.post_id).get('boards');
   }
 });
 
 App.BoardsRoute = Ember.Route.extend({
-  model:function(params){
+  model:function(){
     return App.Board.find();
   }
 });
 
+App.IndexController = Ember.ArrayController;
 App.WallsController = Ember.ArrayController;
 
 App.BoardsController = Ember.ArrayController.extend({

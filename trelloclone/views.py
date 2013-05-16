@@ -42,6 +42,7 @@ class BoardList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
+        path = self.request.get_full_path()
         return Board.objects.filter(wall__owner=user)
 
     def pre_save(self, obj):

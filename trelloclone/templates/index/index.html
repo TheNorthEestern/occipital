@@ -29,14 +29,15 @@
       </div>
     </div>
     </script>
-    <script type="text/x-handlebars" data-template-name="walls">
+    <script type="text/x-handlebars" data-template-name="index">
       {{#each wall in controller}}
-        {{#linkTo "walls.index"}}<p>{{wall.title}}</p>{{/linkTo}}
+       {{#linkTo "boards" wall}}<p>{{wall.title}}</p>{{/linkTo}}
       {{/each}}
     </script>
     <script type="text/x-handlebars" data-template-name="boards">
       <div class="new-board-form">{{view App.CreateBoardView}}</div>
       {{#each board in controller itemController='boardEntryItem'}}
+        {{controller.length}}
         <div class="board">
           <h4 class="board-title" style="display: inline;">{{board.title}}</h4>
           <p class="label card-counter">

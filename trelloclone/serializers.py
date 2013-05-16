@@ -16,7 +16,7 @@ class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
         resource_name = 'boards'
-        fields = ('wall','id', 'title', 'cards',)
+        fields = ('wall', 'id', 'title', 'cards',)
 
 class WallSerializer(serializers.ModelSerializer):
     owner = serializers.Field(source='owner.username')
@@ -25,4 +25,4 @@ class WallSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wall
         resource_name = 'walls'
-        fields = ('owner', 'title', 'boards',)
+        fields = ('id', 'owner', 'title', 'boards',)
