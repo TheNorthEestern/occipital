@@ -137,8 +137,8 @@ App.loginController = Ember.Object.create({
 
 App.Router.map(function(){
   this.resource('application');
-  this.resource('wall', {path:'/wall/:wall_id'}, function(){
-   this.resource('boards', {path:'/boards/'});             
+  this.resource('wall', {path:'/wall/'}, function(){
+   this.resource('boards', {path:':wall_id/boards/'});             
   });
 });
 
@@ -149,15 +149,19 @@ App.IndexRoute = Ember.Route.extend({
   }
 });
 
-App.WallRoute = Ember.Route.extend({
+/*App.WallRoute = Ember.Route.extend({
   model: function(params){
-    return App.Wall.find(params.post_id).get('boards');
+    return App.Wall.find(params.post_id).then(function(wall){
+      return wall.get('boards');
+    });
   }
-});
+});*/
 
 App.BoardsRoute = Ember.Route.extend({
-  model:function(){
-    return App.Board.find();
+  model:function(params){
+    return App.Wall.find(params.wall_id).then(function(wall){
+      return wall.get('boards');
+    });
   }
 });
 

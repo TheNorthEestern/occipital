@@ -78,6 +78,18 @@ class JSONResponse(HttpResponse):
         kwargs['content_type'] = 'application/json'
         super(JSONResponse, self).__init__(content, **kwargs)
 
+@permission_classes(permissions.IsAuthenticatedOrReadOnly,)
+@renderer_classes((CustomJSONRenderer,))
+def boards_relative_to_parent_detail(request, wall_pk):
+    try:
+        boards = Wall.objects.get(pk=wall_pk).boards.all()
+    except Wall.DoesNotExist:
+        return HttpResponse('A wall with that id does not exist',status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = BoardSerializer(boards)
+        return JSONResponse(serializer.data)
+
 # Function based view that finds all cards associated
 # with a particular board
 @permission_classes(permissions.IsAuthenticatedOrReadOnly,)
