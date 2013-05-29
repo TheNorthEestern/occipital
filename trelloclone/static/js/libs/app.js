@@ -1,4 +1,6 @@
 var App = Ember.Application.create({
+  LOG_ACTIVE_GENERATION : true,
+  LOG_VIEW_LOOKUPS: true,
   LOG_TRANSITIONS:true,
   customEvents:{
     // Necessary because of jQueryUI's 'drop' conflicts with
@@ -136,9 +138,8 @@ App.loginController = Ember.Object.create({
 });
 
 App.Router.map(function(){
-  this.resource('application');
-  this.resource('wall', {path:'/wall/'}, function(){
-   this.resource('boards', {path:':wall_id/boards/'});             
+  this.resource('wall', {path:'/wall/:wall_id'}, function(){
+   this.route('boards');
   });
 });
 
@@ -149,27 +150,19 @@ App.IndexRoute = Ember.Route.extend({
   }
 });
 
-/*App.WallRoute = Ember.Route.extend({
-  model: function(params){
-    return App.Wall.find(params.post_id).then(function(wall){
-      return wall.get('boards');
-    });
-  }
-});*/
-
-App.BoardsRoute = Ember.Route.extend({
-  model:function(params){
-    return App.Wall.find(params.wall_id).then(function(wall){
-      return wall.get('boards');
-    });
+App.WallRoute = Ember.Route.extend({
+  setupController: function(controller, model){
+    controller.set('model', model.get('boards'));
+    controller.set('wall',model);
   }
 });
 
-App.IndexController = Ember.ArrayController;
-App.WallsController = Ember.ArrayController;
+App.BoardsRoute = Ember.Route.extend({
 
-App.BoardsController = Ember.ArrayController.extend({
-  sortProperties:['id'], 
+});
+
+App.WallController = Ember.ArrayController.extend({
+  sortProperties:['id'],
   sortAscending:false, 
   showNewCardForm: true,
   activeForm : 0
@@ -247,6 +240,5 @@ App.Adapter = DS.DjangoRESTAdapter.create({
 });
 
 App.Store = DS.Store.extend({
-  revision: 12,
   adapter: 'App.Adapter'
 });
