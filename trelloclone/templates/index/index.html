@@ -35,7 +35,7 @@
       {{/each}}
     </script>
     <script type="text/x-handlebars" data-template-name="wall">
-      <h1>{{wall.title}}</h1>
+      <h1>{{#linkTo "index"}}&#x21E7;{{/linkTo}} {{wall.title}}</h1>
       <div class="new-board-form">{{view App.CreateBoardView}}</div>
       {{#each board in controller itemController='boardEntryItem'}}
         {{controller.length}}
