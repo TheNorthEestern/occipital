@@ -143,7 +143,6 @@ App.Router.map(function(){
   });
 });
 
-// Since this pattern is so common, it's the default
 App.IndexRoute = Ember.Route.extend({
   model: function(params){
     return App.Wall.find();
@@ -153,15 +152,18 @@ App.IndexRoute = Ember.Route.extend({
 App.WallRoute = Ember.Route.extend({
   setupController: function(controller, model){
     controller.set('model', model.get('boards'));
+    // debugger;
     controller.set('wall',model);
   }
 });
 
-App.BoardsRoute = Ember.Route.extend({
-
-});
-
 App.WallController = Ember.ArrayController.extend({
+  saveBoard:function(args){
+    var newBoard = this.get('wall').get('boards');
+    newBoard.createRecord({title:args});
+    newBoard.store.commit();
+    // this.get('wall').get('boards').get('store').transaction;
+  },
   sortProperties:['id'],
   sortAscending:false, 
   showNewCardForm: true,
@@ -170,25 +172,10 @@ App.WallController = Ember.ArrayController.extend({
 
 App.CardsController = Ember.ArrayController.extend({sortProperties:['id']});
 
-App.CreateBoardView = Ember.TextField.extend({
-  placeholder:'Enter the title of a new board here',
-  insertNewline:function(){
-    var value = this.get('value');
-    board = App.Board.createRecord({title:value});
-    board.store.commit();
-    this.set('value', '');
-  }
-});
-
-App.CreateCardView = Ember.View.extend({
-  tagName : 'form'
-});
-
 App.BoardEntryItemController = Ember.ObjectController.extend({
   plural : 'cards',
   singular : 'card',
-  // needs: ['boardsController'],
-  save: function(){
+  saveCard: function(){
     var title = this.get('newCardTitle');
     var content = this.get('newCardContent');
     if ( title ) {
@@ -208,12 +195,24 @@ App.BoardEntryItemController = Ember.ObjectController.extend({
   }
 });
 
+App.CreateBoardView = Ember.TextField.extend({
+  placeholder:'Enter the title of a new board here',
+  insertNewline:function(){
+    this.get('controller').saveBoard(this.value);
+    this.set('value','');
+  }
+});
+
 App.CardEntryItemController = Ember.ObjectController.extend({
   deleteCard: function(){
     currentCard = this.get('model');
     currentCard.deleteRecord();
     currentCard.store.commit();
   }
+});
+
+App.CreateCardView = Ember.View.extend({
+  tagName : 'form'
 });
 
 App.Wall = DS.Model.extend({

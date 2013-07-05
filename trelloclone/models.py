@@ -1,4 +1,5 @@
 import datetime
+import pdb
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -10,7 +11,7 @@ class Wall(models.Model):
         return "%s -> %s" % (self.owner, self.title)
 
 class Board(models.Model):
-    wall = models.ForeignKey(Wall, null=True, blank=True, related_name='boards')
+    wall = models.ForeignKey(Wall, null=False, blank=True, related_name='boards')
     title = models.CharField(max_length=70)
 
     def __unicode__(self):
@@ -30,4 +31,3 @@ class Card(models.Model):
 
     def __unicode__(self):
         return "%s -> %s -- %s" % (self.board, self.title, self.content)
-

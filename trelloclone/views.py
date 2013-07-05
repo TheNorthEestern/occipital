@@ -1,3 +1,4 @@
+import pdb
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
@@ -40,6 +41,19 @@ class BoardList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     #renderer_classes = (EmberJSONRenderer,)
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.DATA, files=request.FILES)
+
+        if serializer.is_valid():
+            self.pre_save(serializer.object)
+            self.object = serializer.save()
+            self.post_save(self.object, created=True)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED,
+                            headers=headers)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def get_queryset(self):
         user = self.request.user
         path = self.request.get_full_path()
@@ -64,13 +78,17 @@ class CardList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
+        try:
+            board = self.kwargs['board_pk']
+            return Card.objects.filter(board__wall__owner=user, board__pk=board)
+        except:
+            pass
         return Card.objects.filter(board__wall__owner=user)
 
 class CardDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Card
     serializer_class = CardSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
-    #renderer_classes = (CustomJSONRenderer,)
 
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):

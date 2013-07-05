@@ -18,7 +18,7 @@
     {% load verbatim %}
     <noscript>
       <div class="main-content-area">
-        <p style="text-align: center;">Please enable JavaScript to use Cranberry.</p>
+        <p style="text-align: center;">Please enable JavaScript to use Occipital.</p>
       </div>
     </noscript>
     {% verbatim %}
@@ -36,7 +36,7 @@
     </script>
     <script type="text/x-handlebars" data-template-name="wall">
       <h1>{{#linkTo "index"}}&#x21E7;{{/linkTo}} {{wall.title}}</h1>
-      <div class="new-board-form">{{view App.CreateBoardView}}</div>
+      {{view App.CreateBoardView class="new-board-form"}}
       {{#each board in controller itemController='boardEntryItem'}}
         {{controller.length}}
         <div class="board">
@@ -59,7 +59,7 @@
                 {{view Ember.TextField valueBinding="newCardTitle" placeholder="title" class="card-input title"}}
                 {{view Ember.TextField valueBinding="newCardContent" placeholder="content" class="card-input content"}}
                 <div class="clearfix card-form-controls">
-                  <button style="width:210px; margin:0;" class="button confirm" type=submit {{action save}}>&#x2714;</button>
+                  <button style="width:210px; margin:0;" class="button confirm" type=submit {{action saveCard}}>&#x2714;</button>
                   <button style="width:60px; margin:0;" class="button cancel" type=submit {{action toggleProperty "showNewCardForm"}}>&#x2715;</button>
                 </div><br>
               {{/view}}
