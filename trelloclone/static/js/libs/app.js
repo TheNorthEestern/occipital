@@ -170,6 +170,11 @@ App.WallController = Ember.ArrayController.extend({
   activeForm : 0
 });
 
+App.CreateWallView = Ember.View.extend({
+});
+
+
+
 App.CardsController = Ember.ArrayController.extend({sortProperties:['id']});
 
 App.BoardEntryItemController = Ember.ObjectController.extend({
