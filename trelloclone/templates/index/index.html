@@ -30,6 +30,7 @@
     </div>
     </script>
     <script type="text/x-handlebars" data-template-name="index">
+      {{view App.CreateWallView}}
       {{#each wall in controller}}
        {{#linkTo "wall.boards" wall}}<p>{{wall.title}}</p>{{/linkTo}}
       {{/each}}

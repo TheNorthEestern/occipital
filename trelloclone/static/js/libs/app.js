@@ -158,7 +158,10 @@ App.WallRoute = Ember.Route.extend({
 });
 
 App.WallController = Ember.ArrayController.extend({
-  saveBoard:function(args){
+  saveWall: function(args){
+    console.log("This was registered");
+  },
+  saveBoard: function(args){
     var newBoard = this.get('wall').get('boards');
     newBoard.createRecord({title:args});
     newBoard.store.commit();
@@ -170,7 +173,11 @@ App.WallController = Ember.ArrayController.extend({
   activeForm : 0
 });
 
-App.CreateWallView = Ember.View.extend({
+App.CreateWallView = Ember.TextField.extend({
+    placeholder: "Enter the title of a new wall here",
+    insertNewline:function() {
+      // console.log(this.get('controller'));
+    }
 });
 
 
