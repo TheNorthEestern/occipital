@@ -176,11 +176,9 @@ App.WallController = Ember.ArrayController.extend({
 App.CreateWallView = Ember.TextField.extend({
     placeholder: "Enter the title of a new wall here",
     insertNewline:function() {
-      // console.log(this.get('controller'));
+      console.log(this.get('controller').get('model'));
     }
 });
-
-
 
 App.CardsController = Ember.ArrayController.extend({sortProperties:['id']});
 

@@ -1,3 +1,3 @@
-# Cranberry: A Trello Clone
+# Occipital: A Trello Clone
 
-I'll be creating a version that can be easily installed locally soon...
+![](http://i.imgur.com/P7Xnhz2.gif)
