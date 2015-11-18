@@ -24,27 +24,27 @@ def api_root(request, format=None):
 class WallList(generics.ListCreateAPIView):
     model = Wall
     serializer_class = WallSerializer
-    permissions_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    # permissions_classes = (permissions.IsAuthenticatedOrReadOnly,)
     
-    def get_queryset(self):
+    ''' def get_queryset(self):
         user = self.request.user
-        return Wall.objects.filter(owner=user)
+        return Wall.objects.filter(owner=user)'''
 
 class WallDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Wall
     serializer_class = WallSerializer
-    permissions_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    # permissions_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class BoardList(generics.ListCreateAPIView):
     model = Board
     serializer_class = BoardSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     #renderer_classes = (EmberJSONRenderer,)
 
-    def get_queryset(self):
-        user = self.request.user
-        path = self.request.get_full_path()
-        return Board.objects.filter(wall__owner=user)
+    #def get_queryset(self):
+    #    user = self.request.user
+    #    path = self.request.get_full_path()
+    #    return Board.objects.filter(wall__owner=user)
 
     def pre_save(self, obj):
         obj.owner_id = self.request.user.id
@@ -52,7 +52,7 @@ class BoardList(generics.ListCreateAPIView):
 class BoardDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Board
     serializer_class = BoardSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     renderer_classes = (CustomJSONRenderer,)
 
     def pre_save(self, obj):
@@ -61,7 +61,7 @@ class BoardDetail(generics.RetrieveUpdateDestroyAPIView):
 class CardList(generics.ListCreateAPIView):
     model = Card
     serializer_class = CardSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         user = self.request.user
@@ -83,8 +83,8 @@ class JSONResponse(HttpResponse):
         kwargs['content_type'] = 'application/json'
         super(JSONResponse, self).__init__(content, **kwargs)
 
-@permission_classes(permissions.IsAuthenticatedOrReadOnly,)
-@renderer_classes((CustomJSONRenderer,))
+# @permission_classes(permissions.IsAuthenticatedOrReadOnly,)
+# @renderer_classes((CustomJSONRenderer,))
 def boards_relative_to_parent_detail(request, wall_pk):
     try:
         boards = Wall.objects.get(pk=wall_pk).boards.all()

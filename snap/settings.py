@@ -1,6 +1,6 @@
 # Django settings for snap project.
 import dj_database_url
-DATABASES =  {'default':dj_database_url.config()}
+DATABASES =  {'default':dj_database_url.config(default='postgres://default:@127.0.0.1:5432/occipital')}
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
 
 DEBUG = True
@@ -90,6 +90,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -126,6 +127,7 @@ INSTALLED_APPS = (
     'django_extensions',
     #'debug_toolbar',
     'trelloclone',
+    'corsheaders',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -156,3 +158,6 @@ LOGGING = {
         },
     }
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+# APPEND_SLASH = False
